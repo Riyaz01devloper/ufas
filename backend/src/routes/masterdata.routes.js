@@ -28,7 +28,6 @@ GET /api/masterdata/get-products/:productId
 masterdataRouter.get(
   "/get-products/:productId",
   authenticate,
-  authorize(["ADMIN"]),
   masterdataController.getProduct,
 );
 /*
