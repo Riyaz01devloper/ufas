@@ -53,6 +53,21 @@ masterdataRouter.delete(
 /*
 GET /api/masterdata/all-products
  */
-masterdataRouter.get("/all-products", authenticate, masterdataController.getAllProducts);
+masterdataRouter.get(
+  "/all-products",
+  authenticate,
+  masterdataController.getAllProducts,
+);
+
+/*
+GET /api/masterdata/chart-of-accounts
+*/
+
+masterdataRouter.get(
+  "/chart-of-accounts",
+  authenticate,
+  authorize(["ADMIN", "ACCOUNTANT"]),
+  masterdataController.getChartOfAccounts,
+);
 
 export default masterdataRouter;

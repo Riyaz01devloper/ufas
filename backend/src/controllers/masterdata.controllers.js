@@ -146,3 +146,13 @@ export const getAllProducts = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+export const getChartOfAccounts = async (req, res) => {
+  try {
+    const chartOfAccounts = await prisma.account.findMany();
+    res.status(200).json(chartOfAccounts);
+  } catch (error) {
+    console.error("Error fetching chart of accounts:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
