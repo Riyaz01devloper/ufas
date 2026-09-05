@@ -1,4 +1,8 @@
-import { validateContact, validateProduct } from "../utils/validate.js";
+import {
+  validateContact,
+  validateProduct,
+  validateAccount,
+} from "../utils/validate.js";
 import { validationResult, matchedData } from "express-validator";
 import { prisma } from "../../lib/prisma.js";
 
@@ -155,4 +159,40 @@ export const getChartOfAccounts = async (req, res) => {
     console.error("Error fetching chart of accounts:", error);
     res.status(500).json({ message: "Internal server error" });
   }
+};
+
+export const addChartOfAccounts = [
+  ...validateAccount,
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res
+        .status(400)
+        .json({ message: "Validation failed", errors: errors.array() });
+    }
+    const { accountName, accountType } = matchedData(req);
+    const newAccount = await prisma.account.create({
+      data: {
+        accountName,
+        accountType,
+      },
+    });
+    res.status(201).json(newAccount);
+  },
+];
+
+export const deleteChartOfAccounts = async (req,res) => {
+    const accountId = parseInt(req.params.accountId, 10);
+    const accountData = await prisma.account.findUnique({
+        where: { id: accountId },
+    });
+    if (!accountData) {
+        return res.status(404).json({
+            message: "Account not found",
+        });
+    }
+    await prisma.account.delete({
+        where: { id: accountId },
+    });
+    res.json({ message: "Account deleted successfully" });
 };

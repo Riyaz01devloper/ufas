@@ -156,3 +156,21 @@ export const validateProduct = [
     .withMessage("Max margin must be a positive number")
     .toFloat(),
 ];
+
+export const validateAccount = [
+  body("accountName")
+    .trim()
+    .notEmpty()
+    .withMessage("Account name is required")
+    .isLength({ min: 2, max: 100 })
+    .withMessage("Account name must be between 2 and 100 characters"),
+
+  body("accountType")
+    .trim()
+    .notEmpty()
+    .withMessage("Account type is required")
+    .isIn(["ASSET", "LIABILITY", "EXPENSE", "INCOME", "CAPITAL"])
+    .withMessage(
+      "Account type must be one of the following: ASSET, LIABILITY, EXPENSE, INCOME, CAPITAL",
+    ),
+];

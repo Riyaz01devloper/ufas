@@ -70,4 +70,24 @@ masterdataRouter.get(
   masterdataController.getChartOfAccounts,
 );
 
+/*
+POST /api/masterdata/add-chart-of-accounts
+*/
+masterdataRouter.post(
+  "/add-chart-of-accounts",
+  authenticate,
+  authorize(["ADMIN", "ACCOUNTANT"]),
+  masterdataController.addChartOfAccounts,
+);
+
+/*
+DELETE /api/masterdata/delete-chart-of-accounts/:accountId
+*/
+masterdataRouter.delete(
+  "/delete-chart-of-accounts/:accountId",
+  authenticate,
+  authorize(["ADMIN", "ACCOUNTANT"]),
+  masterdataController.deleteChartOfAccounts,
+);
+
 export default masterdataRouter;
