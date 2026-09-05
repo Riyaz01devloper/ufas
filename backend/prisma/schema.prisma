@@ -25,7 +25,7 @@ model User {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
+  contacts  Contact?
   sessions Session[]
 }
 
@@ -93,14 +93,15 @@ enum ContactType {
 
 model Contact {
   id        Int         @id @default(autoincrement())
-  name      String
   type      ContactType
-  email     String
+
   mobile    String
   city      String
   state     String
   pincode   String
-  imageUrl  String?
+
+  userId    Int         @unique
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt

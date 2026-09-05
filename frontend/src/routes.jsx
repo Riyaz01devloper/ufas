@@ -18,6 +18,10 @@ const routes = [
     path: "/",
     element: <App />,
   },
+  // {
+  //   path: "/ContactForm",
+  //   element: <ContactForm />,
+  // },
   {
     path: "*",
     element: <ErrorPage />,
@@ -26,7 +30,7 @@ const routes = [
     path: "/vendorform",
     element: <VendorForm />,
   },
-   {
+  {
     path: "/products",
     element: <ProductMaster />,
   },
