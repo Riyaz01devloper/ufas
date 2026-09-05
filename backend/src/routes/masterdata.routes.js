@@ -41,4 +41,14 @@ masterdataRouter.patch(
   masterdataController.updateProduct,
 );
 
+/*
+DELETE /api/masterdata/delete-product/:productId
+ */
+masterdataRouter.delete(
+  "/delete-product/:productId",
+  authenticate,
+  authorize(["ADMIN"]),
+  masterdataController.deleteProduct,
+);
+
 export default masterdataRouter;

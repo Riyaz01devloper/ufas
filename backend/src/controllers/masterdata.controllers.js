@@ -64,6 +64,28 @@ export const createProduct = [
   },
 ];
 
+export const getProducts = async (req, res) => {
+  const productId = parseInt(req.params.productId, 10);
+
+  if (isNaN(productId)) {
+    return res.status(400).json({
+      message: "Invalid product ID",
+    });
+  }
+
+  const productData = await prisma.product.findUnique({
+    where: { id: productId },
+  });
+
+  if (!productData) {
+    return res.status(404).json({
+      message: "Product not found",
+    });
+  }
+
+  res.status(200).json(productData);
+};
+
 export const updateProduct = async (req, res) => {
   const productId = parseInt(req.params.productId, 10);
   const productData = await prisma.product.findUnique({
@@ -79,13 +101,30 @@ export const updateProduct = async (req, res) => {
   const updatedProduct = await prisma.product.update({
     where: { id: productId },
     data: {
-      purchasingPrice: req.body.purchasingPrice ?? productData.purchasingPrice,
-      sellingPrice: req.body.sellingPrice ?? productData.sellingPrice,
-      availableQuantity:
-        req.body.availableQuantity ?? productData.availableQuantity,
-      maxMargin: req.body.maxMargin ?? productData.maxMargin,
+      purchasingPrice: req.body.purchasingPrice ? parseFloat(req.body.purchasingPrice) : productData.purchasingPrice,
+      sellingPrice: req.body.sellingPrice ? parseFloat(req.body.sellingPrice) : productData.sellingPrice,
+      availableQuantity: req.body.availableQuantity ? parseInt(req.body.availableQuantity) : productData.availableQuantity,
+      maxMargin: req.body.maxMargin ? parseFloat(req.body.maxMargin) : productData.maxMargin,
     },
   });
 
   res.json(updatedProduct);
+};
+
+export const deleteProduct = async (req, res) => {
+  const productId = parseInt(req.params.productId, 10);
+  const productData = await prisma.product.findUnique({
+    where: { id: productId },
+  });
+  if (!productData) {
+    return res.status(404).json({
+      message: "Product not found",
+    });
+  }
+
+  await prisma.product.delete({
+    where: { id: productId },
+  });
+
+  res.json({ message: "Product deleted successfully" });
 };
