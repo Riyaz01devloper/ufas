@@ -74,13 +74,15 @@ function ContactForm() {
           {/* Type */}
           <div className={styles.formField}>
             <label>type</label>
-            <input
-              type="text"
+            <select
               name="type"
-              placeholder="Enter type"
               value={formData.type}
               onChange={handleChange}
-            />
+            >
+              <option value="CUSTOMER">Customer</option>
+              <option value="VENDOR">Vendor</option>
+              <option value="BOTH">Both</option>
+            </select>
           </div>
 
           {/* Mobile */}
