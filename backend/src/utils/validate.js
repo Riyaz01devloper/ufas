@@ -129,26 +129,30 @@ export const validateProduct = [
     .notEmpty()
     .withMessage("Purchase price is required")
     .isFloat({ min: 0 })
-    .withMessage("Purchase price must be a positive number"),
+    .withMessage("Purchase price must be a positive number")
+    .toFloat(),
 
   body("sellingPrice")
     .trim()
     .notEmpty()
     .withMessage("Selling price is required")
     .isFloat({ min: 0 })
-    .withMessage("Selling price must be a positive number"),
+    .withMessage("Selling price must be a positive number")
+    .toFloat(),
 
   body("availableQuantity")
     .trim()
     .notEmpty()
     .withMessage("Available quantity is required")
     .isInt({ min: 1 })
-    .withMessage("Available quantity must be a greater than 1"),
+    .withMessage("Available quantity must be a greater than 1")
+    .toInt(),
 
   body("maxMargin")
     .trim()
     .notEmpty()
     .withMessage("Max margin is required")
     .isFloat({ min: 0 })
-    .withMessage("Max margin must be a positive number"),
+    .withMessage("Max margin must be a positive number")
+    .toFloat(),
 ];

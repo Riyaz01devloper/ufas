@@ -29,7 +29,7 @@ export const addContact = [
   },
 ];
 
- export const createProduct = [
+export const createProduct = [
   ...validateProduct,
   async (req, res) => {
     const errors = validationResult(req);
@@ -43,7 +43,7 @@ export const addContact = [
       brandName,
       type,
       category,
-      purchasePrice,
+      purchasingPrice,
       sellingPrice,
       availableQuantity,
       maxMargin,
@@ -54,7 +54,7 @@ export const addContact = [
         brandName,
         type,
         category,
-        purchasePrice,
+        purchasingPrice,
         sellingPrice,
         availableQuantity,
         maxMargin,
