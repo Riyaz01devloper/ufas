@@ -112,7 +112,7 @@ model MasterData {
   p_name String
   p_type ProductType
   SalesPrice Float?
-  PurchasePrice Float
+  PurchasePrice Float?
   Category  FurnitureCategory
 
 
