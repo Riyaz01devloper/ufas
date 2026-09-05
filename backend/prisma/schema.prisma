@@ -45,3 +45,14 @@ model Session {
   @@index([userId])
   @@index([refreshTokenHash])
 }
+
+model Product {
+  id                Int      @id @default(autoincrement())
+  name              String
+  purchasingPrice     Float
+  sellingPrice      Float
+  availableCounts   Int
+  maxMargin         Float
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
