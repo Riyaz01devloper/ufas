@@ -1,0 +1,137 @@
+.editProductPage {
+	min-height: 100vh;
+	width: 100%;
+	background: #111111;
+	color: #ffffff;
+	padding: 30px;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.editProductPage h1 {
+	text-align: center;
+	margin: 0 0 25px;
+	font-size: 30px;
+	font-weight: 600;
+}
+
+.editProductForm {
+	width: 90%;
+	max-width: 700px;
+	margin: 0 auto;
+	border: 1px solid #aaaaaa;
+	border-radius: 25px;
+	padding: 30px;
+	box-sizing: border-box;
+}
+
+.editProductForm h2 {
+	margin-bottom: 20px;
+	font-size: 24px;
+	font-weight: 600;
+}
+
+.editProductForm p {
+	margin-bottom: 10px;
+	color: #dddddd;
+	font-size: 15px;
+}
+
+.formField {
+	display: flex;
+	align-items: center;
+	margin-bottom: 25px;
+	gap: 25px;
+	font-size: 17px;
+	font-weight: 500;
+}
+
+.formField input {
+	flex: 1;
+	max-width: 450px;
+	height: 38px;
+	padding: 5px 10px;
+	border: none;
+	border-bottom: 1px solid #888888;
+	outline: none;
+	background: transparent;
+	color: #ffffff;
+	font-size: 15px;
+	box-sizing: border-box;
+}
+
+.formField input:focus {
+	border-bottom: 1px solid #ffffff;
+}
+
+.actions {
+	display: flex;
+	justify-content: center;
+	gap: 15px;
+	margin-top: 10px;
+}
+
+.actions button,
+.editProductPage > button {
+	min-width: 130px;
+	padding: 12px 30px;
+	border: 1px solid #bbbbbb;
+	border-radius: 10px;
+	background: transparent;
+	color: #ffffff;
+	font-size: 16px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: 0.2s ease;
+}
+
+.actions button:hover,
+.editProductPage > button:hover {
+	background: #2a2a2a;
+}
+
+.actions button:disabled,
+.editProductPage > button:disabled {
+	cursor: not-allowed;
+	opacity: 0.6;
+}
+
+.error {
+	margin-bottom: 20px;
+	color: #ffaaaa;
+	font-size: 15px;
+}
+
+@media (max-width: 700px) {
+	.editProductPage {
+		padding: 20px;
+	}
+
+	.editProductForm {
+		width: 100%;
+		padding: 20px;
+		border-radius: 18px;
+	}
+
+	.formField {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 8px;
+	}
+
+	.formField input {
+		width: 100%;
+		max-width: none;
+	}
+
+	.actions {
+		width: 100%;
+	}
+
+	.actions button {
+		flex: 1;
+		min-width: 0;
+	}
+}

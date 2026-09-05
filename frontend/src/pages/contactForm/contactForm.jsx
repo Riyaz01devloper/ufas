@@ -17,6 +17,7 @@ function ContactForm() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    const [error, setError] = useState(null);
 
     setFormData((prev) => ({
       ...prev,
@@ -59,13 +60,14 @@ function ContactForm() {
       navigate("/"); // Navigate to the home page or any other page after successful submission
     } catch (error) {
       console.error("Error creating contact:", error.message);
+      setError(error.message);
     }
   };
 
   return (
     <div className={styles.contactPage}>
       <h1>Contact Master Form View</h1>
-
+      {error && <p className={styles.error}>{error}</p>}
       <div className={styles.formContainer}>
         <form
           id="contact-form"

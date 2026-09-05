@@ -4,6 +4,8 @@ import LoginPage from "./pages/login/login.jsx";
 import RegisterPage from "./pages/register/register.jsx";
 import ContactForm from "./pages/contactForm/contactForm.jsx";
 import CreateProduct from "./pages/createProduct/createProduct.jsx";
+import Products from "./pages/products/products.jsx";
+import EditProduct from "./pages/editProduct/editProduct.jsx";
 
 const routes = [
   {
@@ -25,6 +27,14 @@ const routes = [
   {
     path: "/createProduct",
     element: <CreateProduct />,
+  },
+  {
+    path: "/products",
+    element: <Products />,
+  },
+  {
+    path: "/updateProduct/:productId",
+    element: <EditProduct />,
   },
   {
     path: "*",

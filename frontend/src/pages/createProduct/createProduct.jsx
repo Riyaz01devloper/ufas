@@ -17,7 +17,7 @@ function CreateProduct() {
     availableQuantity: "",
     maxMargin: "",
   });
-
+ const [errors, setErrors] = useState({});
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (
@@ -85,13 +85,14 @@ function CreateProduct() {
       navigate("/"); // Navigate to the home page or any other page after successful submission
     } catch (error) {
       console.error("Error creating product:", error.message);
+      setErrors(error.message);
     }
   };
 
   return (
     <div className={styles.createProduct}>
       <h1>Create Product Form</h1>
-
+        {errors && <p className={styles.error}>{errors}</p>}
       <div className={styles.formContainer}>
         <form
           id="contact-form"

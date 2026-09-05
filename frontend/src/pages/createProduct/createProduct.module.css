@@ -223,3 +223,9 @@
     flex: 1;
   }
 }
+
+.error {
+  color: #ffaaaa;
+  font-size: 15px;
+  margin-bottom: 20px;
+}
