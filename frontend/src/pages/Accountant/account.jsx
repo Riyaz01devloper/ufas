@@ -3,7 +3,8 @@ import { Navigate } from "react-router";
 import getChartOfAccount from "../../api/getChartofAccount";
 import { useEffect, useState } from "react";
 import styles from "./account.module.css";
-
+import { Link } from "react-router";
+import configuration from "../../utils/configuration";
 function Account() {
   const {
     user,
@@ -71,11 +72,49 @@ function Account() {
     );
   }
 
+  const handleDelete = async (accountId) => {
+    try {
+      const response = await fetch(`${configuration.API_URL}/api/masterdata/delete-chart-of-accounts/${accountId}`, {
+        method: "DELETE",
+        headers: {
+          "Authorization": `Bearer ${accessToken}`
+        }
+      });
+
+      if (response.status === 401) {
+        const newAccessToken = await refreshAccessToken();
+        await fetch(`${configuration.API_URL}/api/masterdata/delete-chart-of-accounts/${accountId}`, {
+          method: "DELETE",
+          headers: {
+            "Authorization": `Bearer ${newAccessToken}`
+          }
+        });
+      }
+
+      if (!response.ok) {
+        throw new Error("Failed to delete chart of accounts");
+      }
+
+      // Remove the deleted account from the state
+      setChartOfAccounts((prev) => prev.filter((account) => account.id !== accountId));
+    } catch (error) {
+      console.error("Error deleting chart of accounts:", error.message);
+      setError(error.message);
+    }
+  };
+
   return (
     <div className={styles.accountContainer}>
       <div className={styles.accountHeader}>
-        <h1>Chart of Accounts</h1>
-        <p>Manage and view your accounting accounts</p>
+        <div className={styles.accountHeaderContent}>
+          <h1>Chart of Accounts</h1>
+          <p>Manage and view your accounting accounts</p>
+        </div>
+        <div>
+          <Link to="/add-chart-of-account" className={styles.addButton}>
+            Add Account
+          </Link>
+        </div>
       </div>
 
       {loading && (
@@ -117,7 +156,9 @@ function Account() {
                     </span>
                   </td>
                   <td>
-                    <button className={styles.deleteButton}>Delete</button>
+                    <button className={styles.deleteButton} onClick={() => handleDelete(account.id)}>
+                      Delete
+                    </button>
                   </td>
                 </tr>
               ))}

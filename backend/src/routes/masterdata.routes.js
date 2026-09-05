@@ -90,4 +90,14 @@ masterdataRouter.delete(
   masterdataController.deleteChartOfAccounts,
 );
 
+/*
+GET /api/masterdata/journals
+ */
+masterdataRouter.get(
+  "/journals",
+  authenticate,
+  authorize(["ADMIN", "ACCOUNTANT"]),
+  masterdataController.getJournals,
+);
+
 export default masterdataRouter;

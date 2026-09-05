@@ -7,6 +7,8 @@ import CreateProduct from "./pages/createProduct/createProduct.jsx";
 import Products from "./pages/products/products.jsx";
 import EditProduct from "./pages/editProduct/editProduct.jsx";
 import Account from "./pages/Accountant/account.jsx";
+import AddCoa from "./pages/add-coa/addCoa.jsx";
+
 const routes = [
   {
     path: "/register",
@@ -47,7 +49,11 @@ const routes = [
   {
     path: "/updateProduct/:productId",
     element: <CreateProduct />,
-  }
+  },
+  {
+    path: "/add-chart-of-account",
+    element: <AddCoa />,
+  },
 ];
 
 export default routes;

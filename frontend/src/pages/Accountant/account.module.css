@@ -150,3 +150,21 @@
 .accessDenied p {
   color: #486581;
 }
+
+.addButton{
+  padding: 10px 20px;
+  background-color: #2e8b57;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: 0.2s ease;
+}
+
+.accountHeader{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

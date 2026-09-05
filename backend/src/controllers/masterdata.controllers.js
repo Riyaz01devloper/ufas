@@ -196,3 +196,13 @@ export const deleteChartOfAccounts = async (req,res) => {
     });
     res.json({ message: "Account deleted successfully" });
 };
+
+export const getJournals = async (req, res) => {
+    try {
+        const journals = await prisma.journal.findMany();
+        res.status(200).json(journals);
+    } catch (error) {
+        console.error("Error fetching journals:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
