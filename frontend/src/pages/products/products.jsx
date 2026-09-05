@@ -21,92 +21,113 @@ Product attributes:
 */
 
 function Products() {
-    const [products, setProducts] = useState([]);
-    const [error, setError] = useState(null);
-    const { user, accessToken,refreshAccessToken } = useAuth();
+  const [products, setProducts] = useState([]);
+  const [error, setError] = useState(null);
+  const { user, accessToken, refreshAccessToken } = useAuth();
 
-    useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                let response = await getAllProducts(accessToken);
-                if (response.status === 401) {
-                    await refreshAccessToken();
-                }
-                const data = await response.json();
-                if (!response.ok) {
-                    throw new Error(data.message || 'Error fetching products');
-                }
-                setProducts(data);
-            } catch (error) {
-                console.error('Error fetching products:', error);
-                setError(`Failed to fetch products: ${error.message}`);
-            }
-        };
-
-        fetchProducts();
-    }, [refreshAccessToken, accessToken]);
-
-    const handleDelete = async (productId) => {
-        try {
-            const response = await fetch(`${configuration.API_URL}/api/masterdata/delete-product/${productId}`, {
-                method: 'DELETE',
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`,
-                },
-            });
-            if (!response.ok) {
-                throw new Error('Error deleting product');
-            }
-            setProducts((currentProducts) =>
-                currentProducts.filter((product) => product.id !== productId),
-            );
-        } catch (error) {
-            console.error('Error deleting product:', error);
-            setError(`Failed to delete product: ${error.message}`);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setError(null); // Reset error state before fetching
+      try {
+        let response = await getAllProducts(accessToken);
+        if (response.status === 401) {
+          const newAccessToken = await refreshAccessToken();
+          response = await getAllProducts(newAccessToken);
         }
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.message || "Error fetching products");
+        }
+        setProducts(data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+        setError(`Failed to fetch products: ${error.message}`);
+      }
     };
 
-    return (
-        <main className={styles.productsPage}>
-            <h1 className={styles.pageTitle}>Products</h1>
-            {error && <p className={styles.errorMessage} role="alert">{error}</p>}
-            {products.length > 0 ? (
-                <ul className={styles.productsList}>
-                    {products.map((product) => (
-                        <li className={styles.productCard} key={product.id}>
-                            <h3 className={styles.productName}>{product.name}</h3>
-                            <p className={styles.productDetails}>Brand: {product.brandName || '-'}</p>
-                            <p className={styles.productDetails}>Type: {product.type}</p>
-                            <p className={styles.productDetails}>Category: {product.category}</p>
-                            <p className={styles.productDetails}>Purchasing Price: ${product.purchasingPrice}</p>
-                            <p className={styles.productDetails}>Available Quantity: {product.availableQuantity}</p>
-                            <p className={styles.productDetails}>Max Margin: {product.maxMargin}%</p>
-                            <p className={styles.productDetails}>Price: ${product.sellingPrice}</p>
-                            {user && user.role === 'ADMIN' && (
-                                <div>
-                                    <Link
-                                        className={styles.actionButton}
-                                        to={`/updateProduct/${product.id}`}
-                                    >
-                                        Edit
-                                    </Link>
-                                    <button
-                                        className={styles.actionButton}
-                                        type="button"
-                                        onClick={() => handleDelete(product.id)}
-                                    >
-                                        Delete
-                                    </button>
-                                </div>
-                            )}
-                        </li>
-                    ))}
-                </ul>
-            ) : (
-                <p className={styles.emptyMessage}>No products available.</p>
-            )}
-        </main>
-    )
+    fetchProducts();
+  }, [refreshAccessToken, accessToken]);
+
+  const handleDelete = async (productId) => {
+    try {
+      const response = await fetch(
+        `${configuration.API_URL}/api/masterdata/delete-product/${productId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      );
+      if (!response.ok) {
+        throw new Error("Error deleting product");
+      }
+      setProducts((currentProducts) =>
+        currentProducts.filter((product) => product.id !== productId),
+      );
+    } catch (error) {
+      console.error("Error deleting product:", error);
+      setError(`Failed to delete product: ${error.message}`);
+    }
+  };
+
+  return (
+    <main className={styles.productsPage}>
+      <h1 className={styles.pageTitle}>Products</h1>
+      {error && (
+        <p className={styles.errorMessage} role="alert">
+          {error}
+        </p>
+      )}
+      {products.length > 0 ? (
+        <ul className={styles.productsList}>
+          {products.map((product) => (
+            <li className={styles.productCard} key={product.id}>
+              <h3 className={styles.productName}>{product.name}</h3>
+              <p className={styles.productDetails}>
+                Brand: {product.brandName || "-"}
+              </p>
+              <p className={styles.productDetails}>Type: {product.type}</p>
+              <p className={styles.productDetails}>
+                Category: {product.category}
+              </p>
+              <p className={styles.productDetails}>
+                Purchasing Price: ${product.purchasingPrice}
+              </p>
+              <p className={styles.productDetails}>
+                Available Quantity: {product.availableQuantity}
+              </p>
+              <p className={styles.productDetails}>
+                Max Margin: {product.maxMargin}%
+              </p>
+              <p className={styles.productDetails}>
+                Price: ${product.sellingPrice}
+              </p>
+              {user && user.role === "ADMIN" && (
+                <div>
+                  <Link
+                    className={styles.actionButton}
+                    to={`/updateProduct/${product.id}`}
+                  >
+                    Edit
+                  </Link>
+                  <button
+                    className={styles.actionButton}
+                    type="button"
+                    onClick={() => handleDelete(product.id)}
+                  >
+                    Delete
+                  </button>
+                </div>
+              )}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className={styles.emptyMessage}>No products available.</p>
+      )}
+    </main>
+  );
 }
 
 export default Products;
