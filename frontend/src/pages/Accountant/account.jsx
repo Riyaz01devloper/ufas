@@ -5,35 +5,22 @@ import { useEffect, useState } from "react";
 import styles from "./account.module.css";
 
 function Account() {
-  const { user, accessToken, refreshAccessToken, loading } = useAuth();
+  const {
+    user,
+    accessToken,
+    refreshAccessToken,
+    loading: authLoading,
+  } = useAuth();
 
-  if (loading) {
-    return <div>Authenticating...</div>;
-  }
   const [chartOfAccounts, setChartOfAccounts] = useState([]);
-  const [accountLoading, setAccountLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  if (!user) {
-    return <Navigate to="/login" replace />;
-  }
-
-  const isAuthorized = user.role === "ACCOUNTANT" || user.role === "ADMIN";
-
-  if (!isAuthorized) {
-    return (
-      <div className={styles.accessDenied}>
-        <h1>Access Denied</h1>
-        <p>You are not authorized to view this page.</p>
-
-        <p>Logged in as: {user.name}</p>
-        <p>Role: {user.role}</p>
-      </div>
-    );
-  }
 
   useEffect(() => {
+    if (authLoading || !user) return;
+
     const fetchChartOfAccounts = async () => {
-      setAccountLoading(true);
+      setLoading(true);
       setError(null);
 
       try {
@@ -54,12 +41,35 @@ function Account() {
       } catch (err) {
         setError(err.message);
       } finally {
-        setAccountLoading(false);
+        setLoading(false);
       }
     };
 
     fetchChartOfAccounts();
-  }, [user]);
+  }, [authLoading, user, accessToken, refreshAccessToken]);
+
+  // DON'T check user before the useEffect
+
+  if (authLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  const isAuthorized = user.role === "ACCOUNTANT" || user.role === "ADMIN";
+
+  if (!isAuthorized) {
+    return (
+      <div className={styles.accessDenied}>
+        <h1>Access Denied</h1>
+        <p>You are not authorized to view this page.</p>
+        <p>Logged in as: {user.name}</p>
+        <p>Role: {user.role}</p>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.accountContainer}>
@@ -68,7 +78,7 @@ function Account() {
         <p>Manage and view your accounting accounts</p>
       </div>
 
-      {accountLoading && (
+      {loading && (
         <div className={styles.message}>
           <p>Loading accounts...</p>
         </div>
@@ -80,7 +90,7 @@ function Account() {
         </div>
       )}
 
-      {!accountLoading && !error && (
+      {!loading && !error && (
         <div className={styles.tableWrapper}>
           <table className={styles.accountTable}>
             <thead>
