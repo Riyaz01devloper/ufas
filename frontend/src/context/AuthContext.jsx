@@ -14,26 +14,32 @@ export function AuthProvider({ children }) {
   const [accessToken, setAccessToken] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  async function login(username, password) {
+  async function login(loginId, password) {
     const response = await fetch(`${configuration.API_URL}/api/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       credentials: "include",
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({
+        loginId,
+        password,
+      }),
     });
+
     const data = await response.json();
 
     if (!response.ok) {
       throw new Error(data.message || "Login failed");
     }
+
     setUser(data.user);
     setAccessToken(data.accessToken);
+
     return data;
   }
 
-  async function register(name, username, password) {
+  async function register(name, loginId, email, password, confirmPassword) {
     const response = await fetch(`${configuration.API_URL}/api/auth/register`, {
       method: "POST",
       headers: {
@@ -42,8 +48,10 @@ export function AuthProvider({ children }) {
       credentials: "include",
       body: JSON.stringify({
         name,
-        username,
+        loginId,
+        email,
         password,
+        confirmPassword,
       }),
     });
 
@@ -51,7 +59,9 @@ export function AuthProvider({ children }) {
 
     if (!response.ok) {
       const error = new Error(data.message || "Registration failed");
+
       error.errors = data.errors || [];
+
       throw error;
     }
 
@@ -60,7 +70,7 @@ export function AuthProvider({ children }) {
 
     return data;
   }
-
+  
   const refreshAccessToken = useCallback(async () => {
     if (refreshpromise) {
       return refreshpromise;

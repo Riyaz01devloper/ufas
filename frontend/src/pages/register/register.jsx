@@ -1,7 +1,10 @@
 import { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
 import styles from "./register.module.css";
 
 const Register = () => {
+  const { register } = useAuth();
+
   const [formData, setFormData] = useState({
     name: "",
     loginId: "",
@@ -37,21 +40,13 @@ const Register = () => {
     try {
       setLoading(true);
 
-      const response = await fetch("http://localhost:5000/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        setError(data.message || "Registration failed");
-        return;
-      }
+      await register(
+        formData.name,
+        formData.loginId,
+        formData.email,
+        formData.password,
+        formData.confirmPassword,
+      );
 
       setSuccess("User registered successfully");
 
@@ -62,12 +57,12 @@ const Register = () => {
         password: "",
         confirmPassword: "",
       });
-
-      console.log("Access Token:", data.accessToken);
-      console.log("User:", data.user);
     } catch (error) {
-      setError("Unable to connect to the server");
-      console.error(error);
+      setError(error.message || "Registration failed");
+
+      if (error.errors?.length) {
+        console.log("Validation errors:", error.errors);
+      }
     } finally {
       setLoading(false);
     }
@@ -77,15 +72,27 @@ const Register = () => {
     <div className={styles.container}>
       <div className={styles.formCard}>
         <h1>Create Account</h1>
-        <p className={styles.subtitle}>Register as an Invoicing User</p>
 
-        {error && <div className={styles.error}>{error}</div>}
+        <p className={styles.subtitle}>
+          Register as an Invoicing User
+        </p>
 
-        {success && <div className={styles.success}>{success}</div>}
+        {error && (
+          <div className={styles.error}>
+            {error}
+          </div>
+        )}
+
+        {success && (
+          <div className={styles.success}>
+            {success}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit}>
           <div className={styles.inputGroup}>
             <label htmlFor="name">Name</label>
+
             <input
               id="name"
               type="text"
@@ -99,6 +106,7 @@ const Register = () => {
 
           <div className={styles.inputGroup}>
             <label htmlFor="loginId">Login ID</label>
+
             <input
               id="loginId"
               type="text"
@@ -114,6 +122,7 @@ const Register = () => {
 
           <div className={styles.inputGroup}>
             <label htmlFor="email">Email ID</label>
+
             <input
               id="email"
               type="email"
@@ -127,6 +136,7 @@ const Register = () => {
 
           <div className={styles.inputGroup}>
             <label htmlFor="password">Password</label>
+
             <input
               id="password"
               type="password"
@@ -139,7 +149,10 @@ const Register = () => {
           </div>
 
           <div className={styles.inputGroup}>
-            <label htmlFor="confirmPassword">Re-enter Password</label>
+            <label htmlFor="confirmPassword">
+              Re-enter Password
+            </label>
+
             <input
               id="confirmPassword"
               type="password"
@@ -151,7 +164,11 @@ const Register = () => {
             />
           </div>
 
-          <button type="submit" className={styles.button} disabled={loading}>
+          <button
+            type="submit"
+            className={styles.button}
+            disabled={loading}
+          >
             {loading ? "Registering..." : "Register"}
           </button>
         </form>
