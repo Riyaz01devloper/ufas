@@ -6,7 +6,7 @@ import ContactForm from "./pages/contactForm/contactForm.jsx";
 import CreateProduct from "./pages/createProduct/createProduct.jsx";
 import Products from "./pages/products/products.jsx";
 import EditProduct from "./pages/editProduct/editProduct.jsx";
-
+import Accountant from "./pages/Accountant/accountant.jsx";
 const routes = [
   {
     path: "/register",
@@ -35,6 +35,10 @@ const routes = [
   {
     path: "/updateProduct/:productId",
     element: <EditProduct />,
+  },
+  {
+    path: "/accountant",
+    element: <Accountant />,
   },
   {
     path: "*",
