@@ -1,0 +1,152 @@
+.accountContainer {
+  width: 90%;
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border: 1px solid #d5dce5;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(15, 39, 71, 0.08);
+}
+
+.accountHeader {
+  margin-bottom: 25px;
+  border-bottom: 2px solid #d5dce5;
+  padding-bottom: 18px;
+}
+
+.accountHeader h1 {
+  margin: 0;
+  color: #102a43;
+  font-size: 28px;
+}
+
+.accountHeader p {
+  margin: 8px 0 0;
+  color: #627d98;
+  font-size: 14px;
+}
+
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.accountTable {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  border: 1px solid #b8c4d1;
+}
+
+.accountTable th {
+  background-color: #102a43;
+  color: #ffffff;
+  padding: 14px 16px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+  border: 1px solid #102a43;
+}
+
+.accountTable td {
+  padding: 14px 16px;
+  border: 1px solid #d5dce5;
+  color: #243b53;
+  font-size: 14px;
+}
+
+.accountTable tbody tr:hover {
+  background-color: #f4f7fa;
+}
+
+.accountName {
+  font-weight: 600;
+  color: #102a43 !important;
+}
+
+.accountType {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+/* Account type styling */
+
+.asset {
+  background-color: #e8f1f8;
+  color: #174a70;
+}
+
+.liability {
+  background-color: #f1e9e9;
+  color: #743b3b;
+}
+
+.income {
+  background-color: #e7f3ed;
+  color: #256044;
+}
+
+.expense {
+  background-color: #f8eee4;
+  color: #87531e;
+}
+
+.capital {
+  background-color: #ece9f5;
+  color: #4d3d72;
+}
+
+.deleteButton {
+  padding: 7px 14px;
+  background-color: #ffffff;
+  color: #8b2e2e;
+  border: 1px solid #8b2e2e;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: 0.2s ease;
+}
+
+.deleteButton:hover {
+  background-color: #8b2e2e;
+  color: #ffffff;
+}
+
+.message {
+  padding: 30px;
+  text-align: center;
+  color: #627d98;
+}
+
+.errorMessage {
+  padding: 14px 18px;
+  background-color: #fdf0f0;
+  color: #8b2e2e;
+  border: 1px solid #e4b7b7;
+  border-radius: 6px;
+}
+
+.accessDenied {
+  width: 90%;
+  max-width: 600px;
+  margin: 60px auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border: 1px solid #d5dce5;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.accessDenied h1 {
+  color: #8b2e2e;
+}
+
+.accessDenied p {
+  color: #486581;
+}

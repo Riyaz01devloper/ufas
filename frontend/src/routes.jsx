@@ -6,7 +6,7 @@ import ContactForm from "./pages/contactForm/contactForm.jsx";
 import CreateProduct from "./pages/createProduct/createProduct.jsx";
 import Products from "./pages/products/products.jsx";
 import EditProduct from "./pages/editProduct/editProduct.jsx";
-import Accountant from "./pages/Accountant/accountant.jsx";
+import Account from "./pages/Accountant/account.jsx";
 const routes = [
   {
     path: "/register",
@@ -37,8 +37,8 @@ const routes = [
     element: <EditProduct />,
   },
   {
-    path: "/accountant",
-    element: <Accountant />,
+    path: "/account",
+    element: <Account />,
   },
   {
     path: "*",
@@ -47,7 +47,7 @@ const routes = [
   {
     path: "/updateProduct/:productId",
     element: <CreateProduct />,
-  },
+  }
 ];
 
 export default routes;

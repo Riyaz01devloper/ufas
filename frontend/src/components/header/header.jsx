@@ -1,52 +1,50 @@
-import styles from "./header.module.css";
+import { NavLink } from "react-router";
 import { useAuth } from "../../context/AuthContext.jsx";
-function Header() {
+import styles from "./header.module.css";
 
+function Header() {
   const { user } = useAuth();
 
-  const role = user?.role;
-
   const adminMenu = [
-    "Dashboard",
-    "Master Data",
-    "Products",
-    "Sales",
-    "Purchases",
-    "Accounting",
-    "Reports"
+    { name: "Dashboard", path: "/dashboard" },
+    { name: "Master Data", path: "/master-data" },
+    { name: "Products", path: "/products" },
+    { name: "Sales", path: "/sales" },
+    { name: "Purchases", path: "/purchases" },
+    { name: "Accounting", path: "/accounting" },
+    { name: "Reports", path: "/reports" },
   ];
 
   const accountantMenu = [
-    "Dashboard",
-    "Sales",
-    "Purchases",
-    "Invoices",
-    "Payments",
-    "Accounting",
-    "Reports"
+    { name: "Dashboard", path: "/dashboard" },
+    { name: "Sales", path: "/sales" },
+    { name: "Purchases", path: "/purchases" },
+    { name: "Invoices", path: "/invoices" },
+    { name: "Payments", path: "/payments" },
+    { name: "Accounting", path: "/accounting" },
+    { name: "Reports", path: "/reports" },
   ];
 
   const contactMenu = [
-    "Dashboard",
-    "My Invoices",
-    "My Payments"
+    { name: "Dashboard", path: "/dashboard" },
+    { name: "My Invoices", path: "/my-invoices" },
+    { name: "My Payments", path: "/my-payments" },
   ];
 
   let menu = [];
 
-  if (role === "ADMIN") {
+  if (user?.role === "ADMIN") {
     menu = adminMenu;
-  } 
-  else if (role === "ACCOUNTANT") {
+  } else if (user?.role === "ACCOUNTANT") {
     menu = accountantMenu;
-  } 
-  else if (role === "CONTACT") {
+  } else if (user?.role === "CONTACT") {
     menu = contactMenu;
   }
 
   return (
     <header className={styles.header}>
 
+      {/* Logo */}
       <div className={styles.logo}>
         <div className={styles.logoIcon}>UF</div>
 
@@ -56,18 +54,24 @@ function Header() {
         </div>
       </div>
 
+      {/* Navigation */}
       <nav className={styles.navbar}>
         {menu.map((item) => (
-          <a
-            key={item}
-            href={`/${item.toLowerCase().replaceAll(" ", "-")}`}
-            className={styles.navItem}
+          <NavLink
+            key={item.path}
+            to={item.path}
+            className={({ isActive }) =>
+              isActive
+                ? `${styles.navItem} ${styles.active}`
+                : styles.navItem
+            }
           >
-            {item}
-          </a>
+            {item.name}
+          </NavLink>
         ))}
       </nav>
 
+      {/* User */}
       <div className={styles.userSection}>
         <div className={styles.userIcon}>
           {user?.name?.charAt(0).toUpperCase()}
