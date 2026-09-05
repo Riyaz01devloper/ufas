@@ -12,6 +12,18 @@ const { PrismaClient } = require("@prisma/client");
 // =====================================================
 
 const createProduct = async (req, res) => {
+    const user = req.user
+    if(!user) {
+        return res.status(401).json({
+            message: "Unauthorized"
+        });
+    }
+    const isUserAdmin = user.role === "ADMIN";
+    if(!isUserAdmin) {
+        return res.status(403).json({
+            message: "Forbidden: Only admins can delete products"
+        });
+    }
     try {
         const {
             name,
@@ -170,6 +182,18 @@ const getProductById = async (req, res) => {
 // =====================================================
 
 const updateProduct = async (req, res) => {
+    const user = req.user
+    if(!user) {
+        return res.status(401).json({
+            message: "Unauthorized"
+        });
+    }
+    const isUserAdmin = user.role === "ADMIN";
+    if(!isUserAdmin) {
+        return res.status(403).json({
+            message: "Forbidden: Only admins can delete products"
+        });
+    }
     try {
         const id = Number(req.params.id);
 
@@ -304,6 +328,18 @@ const updateProduct = async (req, res) => {
 // =====================================================
 
 const deleteProduct = async (req, res) => {
+    const user = req.user
+    if(!user) {
+        return res.status(401).json({
+            message: "Unauthorized"
+        });
+    }
+    const isUserAdmin = user.role === "ADMIN";
+    if(!isUserAdmin) {
+        return res.status(403).json({
+            message: "Forbidden: Only admins can delete products"
+        });
+    }
     try {
         const id = Number(req.params.id);
 
