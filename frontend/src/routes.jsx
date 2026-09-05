@@ -30,6 +30,10 @@ const routes = [
     path: "*",
     element: <ErrorPage />,
   },
+  {
+    path: "/updateProduct/:productId",
+    element: <CreateProduct />,
+  },
 ];
 
 export default routes;

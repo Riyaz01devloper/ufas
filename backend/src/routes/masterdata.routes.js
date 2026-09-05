@@ -29,7 +29,7 @@ masterdataRouter.get(
   "/get-products/:productId",
   authenticate,
   authorize(["ADMIN"]),
-  masterdataController.getProducts,
+  masterdataController.getProduct,
 );
 /*
 PATCH /api/masterdata/update-product/:productId
@@ -50,5 +50,10 @@ masterdataRouter.delete(
   authorize(["ADMIN"]),
   masterdataController.deleteProduct,
 );
+
+/*
+GET /api/masterdata/all-products
+ */
+masterdataRouter.get("/all-products", authenticate, masterdataController.getAllProducts);
 
 export default masterdataRouter;

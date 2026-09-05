@@ -64,7 +64,7 @@ export const createProduct = [
   },
 ];
 
-export const getProducts = async (req, res) => {
+export const getProduct = async (req, res) => {
   const productId = parseInt(req.params.productId, 10);
 
   if (isNaN(productId)) {
@@ -101,10 +101,18 @@ export const updateProduct = async (req, res) => {
   const updatedProduct = await prisma.product.update({
     where: { id: productId },
     data: {
-      purchasingPrice: req.body.purchasingPrice ? parseFloat(req.body.purchasingPrice) : productData.purchasingPrice,
-      sellingPrice: req.body.sellingPrice ? parseFloat(req.body.sellingPrice) : productData.sellingPrice,
-      availableQuantity: req.body.availableQuantity ? parseInt(req.body.availableQuantity) : productData.availableQuantity,
-      maxMargin: req.body.maxMargin ? parseFloat(req.body.maxMargin) : productData.maxMargin,
+      purchasingPrice: req.body.purchasingPrice
+        ? parseFloat(req.body.purchasingPrice)
+        : productData.purchasingPrice,
+      sellingPrice: req.body.sellingPrice
+        ? parseFloat(req.body.sellingPrice)
+        : productData.sellingPrice,
+      availableQuantity: req.body.availableQuantity
+        ? parseInt(req.body.availableQuantity)
+        : productData.availableQuantity,
+      maxMargin: req.body.maxMargin
+        ? parseFloat(req.body.maxMargin)
+        : productData.maxMargin,
     },
   });
 
@@ -127,4 +135,14 @@ export const deleteProduct = async (req, res) => {
   });
 
   res.json({ message: "Product deleted successfully" });
+};
+
+export const getAllProducts = async (req, res) => {
+  try {
+    const products = await prisma.product.findMany();
+    res.status(200).json(products);
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
 };

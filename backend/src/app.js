@@ -16,5 +16,4 @@ app.use(cookieParser());
 
 app.use("/api/auth", authRouter);
 app.use("/api/masterdata", masterdataRouter);
-
 export default app;
