@@ -3,6 +3,7 @@ import ErrorPage from "./components/ErrorPage";
 import LoginPage from "./pages/login/login.jsx";
 import RegisterPage from "./pages/register/register.jsx";
 import ContactForm from "./pages/contactForm/contactForm.jsx";
+import CreateProduct from "./pages/createProduct/createProduct.jsx";
 
 const routes = [
   {
@@ -20,6 +21,10 @@ const routes = [
   {
     path: "/ContactForm",
     element: <ContactForm />,
+  },
+  {
+    path: "/createProduct",
+    element: <CreateProduct />,
   },
   {
     path: "*",
