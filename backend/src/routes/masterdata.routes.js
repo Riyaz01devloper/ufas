@@ -22,5 +22,23 @@ masterdataRouter.post(
   authorize(["ADMIN"]),
   masterdataController.createProduct,
 );
+/*
+GET /api/masterdata/get-products/:productId
+ */
+masterdataRouter.get(
+  "/get-products/:productId",
+  authenticate,
+  authorize(["ADMIN"]),
+  masterdataController.getProducts,
+);
+// /*
+// PATCH /api/masterdata/update-product/:productId
+//  */
+// masterdataRouter.patch(
+//   "/update-product/:productId",
+//   authenticate,
+//   authorize(["ADMIN"]),
+//   masterdataController.updateProduct,
+// );
 
 export default masterdataRouter;
