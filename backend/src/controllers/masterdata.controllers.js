@@ -64,3 +64,28 @@ export const createProduct = [
   },
 ];
 
+export const updateProduct = async (req, res) => {
+  const productId = parseInt(req.params.productId, 10);
+  const productData = await prisma.product.findUnique({
+    where: { id: productId },
+  });
+
+  if (!productData) {
+    return res.status(404).json({
+      message: "Product not found",
+    });
+  }
+
+  const updatedProduct = await prisma.product.update({
+    where: { id: productId },
+    data: {
+      purchasingPrice: req.body.purchasingPrice ?? productData.purchasingPrice,
+      sellingPrice: req.body.sellingPrice ?? productData.sellingPrice,
+      availableQuantity:
+        req.body.availableQuantity ?? productData.availableQuantity,
+      maxMargin: req.body.maxMargin ?? productData.maxMargin,
+    },
+  });
+
+  res.json(updatedProduct);
+};

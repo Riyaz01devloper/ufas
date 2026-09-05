@@ -31,14 +31,14 @@ masterdataRouter.get(
   authorize(["ADMIN"]),
   masterdataController.getProducts,
 );
-// /*
-// PATCH /api/masterdata/update-product/:productId
-//  */
-// masterdataRouter.patch(
-//   "/update-product/:productId",
-//   authenticate,
-//   authorize(["ADMIN"]),
-//   masterdataController.updateProduct,
-// );
+/*
+PATCH /api/masterdata/update-product/:productId
+ */
+masterdataRouter.patch(
+  "/update-product/:productId",
+  authenticate,
+  authorize(["ADMIN"]),
+  masterdataController.updateProduct,
+);
 
 export default masterdataRouter;
