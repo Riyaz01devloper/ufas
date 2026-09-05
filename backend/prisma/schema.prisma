@@ -114,6 +114,8 @@ model MasterData {
   SalesPrice Float?
   PurchasePrice Float?
   Category  FurnitureCategory
+  quantity Int 
+  total_bill Float 
 
 
   createdAt DateTime @default(now())
