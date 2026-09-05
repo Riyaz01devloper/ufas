@@ -19,12 +19,12 @@ enum UserRole {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  name      String
-  loginId   String   @unique
-  email     String   @unique
-  password  String
-  role      UserRole @default(CONTACT)
+  id       Int      @id @default(autoincrement())
+  name     String
+  loginId  String   @unique
+  email    String   @unique
+  password String
+  role     UserRole @default(CONTACT)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -33,12 +33,12 @@ model User {
 }
 
 model Session {
-  id               Int      @id @default(autoincrement())
+  id               Int     @id @default(autoincrement())
   userId           Int
   refreshTokenHash String
-  ip               String   @db.VarChar(45)
+  ip               String  @db.VarChar(45)
   userAgent        String
-  revoked          Boolean  @default(false)
+  revoked          Boolean @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -72,18 +72,49 @@ enum FurnitureCategory {
 }
 
 model Product {
-  id                Int               @id @default(autoincrement())
-  name              String
-  brandName         String?
-  type              ProductType       @default(GOODS)
-  category          FurnitureCategory
+  id        Int               @id @default(autoincrement())
+  name      String
+  brandName String?
+  type      ProductType       @default(GOODS)
+  category  FurnitureCategory
 
   purchasingPrice   Float
   sellingPrice      Float
   availableQuantity Int
 
   // Maximum allowed increase over purchasing price (%)
-  maxMargin         Float
+  maxMargin Float
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+enum ContactType {
+  CUSTOMER
+  VENDOR
+}
+
+
+model MasterData {
+  id Int @id @default(autoincrement())
+
+  name String
+  type ContactType
+
+  email String
+  mobile String
+
+  city String
+  state String
+  pincode String
+
+  p_name String
+  p_type ProductType
+  SalesPrice Float?
+  PurchasePrice Float
+  Category  FurnitureCategory
+
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
