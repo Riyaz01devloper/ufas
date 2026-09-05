@@ -1,0 +1,127 @@
+.loginPage {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  background-color: #f5f6f8;
+}
+
+.loginForm {
+  width: 100%;
+  max-width: 400px;
+  padding: 32px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.loginHeading {
+  margin-bottom: 28px;
+  text-align: center;
+}
+
+.loginHeading h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: #222222;
+}
+
+.formLabel {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333333;
+}
+
+.formInput {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px;
+  margin-bottom: 18px;
+  border: 1px solid #d1d5db;
+  border-radius: 7px;
+  background-color: #ffffff;
+  color: #222222;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.formInput::placeholder {
+  color: #999999;
+}
+
+.formInput:focus {
+  border-color: #333333;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.08);
+}
+
+.registerLink {
+  color: #333333;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.registerLink:hover {
+  text-decoration: underline;
+}
+
+.formButton {
+  width: 100%;
+  margin-top: 22px;
+  padding: 12px;
+  border: none;
+  border-radius: 7px;
+  background-color: #222222;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.formButton:hover:not(:disabled) {
+  background-color: #000000;
+}
+
+.formButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.error {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(400px, calc(100% - 32px));
+  padding: 12px 16px;
+  box-sizing: border-box;
+  border-radius: 7px;
+  background-color: #ffebee;
+  color: #c62828;
+  font-size: 14px;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.error p {
+  margin: 0;
+}
+
+@media (max-width: 500px) {
+  .loginPage {
+    padding: 16px;
+  }
+
+  .loginForm {
+    padding: 24px;
+  }
+
+  .loginHeading h1 {
+    font-size: 24px;
+  }
+}
