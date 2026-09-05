@@ -81,3 +81,74 @@ export const validateContact = [
     .isLength({ min: 5, max: 10 })
     .withMessage("Pincode must be between 5 and 10 characters"),
 ];
+
+export const validateProduct = [
+  body("name")
+    .trim()
+    .notEmpty()
+    .withMessage("Product name is required")
+    .isLength({ min: 3, max: 100 })
+    .withMessage("Product name must be between 3 and 100 characters"),
+
+  body("brandName")
+    .optional()
+    .trim()
+    .isLength({ min: 2, max: 100 })
+    .withMessage("Brand name must be between 2 and 100 characters"),
+
+  body("type")
+    .trim()
+    .notEmpty()
+    .withMessage("Product type is required")
+    .isIn(["GOODS", "SERVICE", "COMBO"])
+    .withMessage("Product type must be either 'GOODS' , 'SERVICES' or 'COMBO'"),
+
+  body("category")
+    .trim()
+    .notEmpty()
+    .withMessage("Category is required")
+    .isIn([
+      "CHAIRS",
+      "TABLES",
+      "SOFAS",
+      "BEDS",
+      "WARDROBES",
+      "CABINETS",
+      "DESKS",
+      "DINING",
+      "OFFICE_FURNITURE",
+      "OUTDOOR_FURNITURE",
+      "STORAGE",
+      "MATTRESSES",
+      "OTHER",
+    ])
+    .withMessage("Not a valid category"),
+
+  body("purchasingPrice")
+    .trim()
+    .notEmpty()
+    .withMessage("Purchase price is required")
+    .isFloat({ min: 0 })
+    .withMessage("Purchase price must be a positive number"),
+
+  body("sellingPrice")
+    .trim()
+    .notEmpty()
+    .withMessage("Selling price is required")
+    .isFloat({ min: 0 })
+    .withMessage("Selling price must be a positive number"),
+
+  body("availableQuantity")
+    .trim()
+    .notEmpty()
+    .withMessage("Available quantity is required")
+    .isInt({ min: 1 })
+    .withMessage("Available quantity must be a greater than 1"),
+
+  body("maxMargin")
+    .trim()
+    .notEmpty()
+    .withMessage("Max margin is required")
+    .isFloat({ min: 0 })
+    .withMessage("Max margin must be a positive number"),
+];
