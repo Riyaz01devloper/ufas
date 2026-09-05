@@ -1,16 +1,18 @@
 import { useState } from "react";
+import { useAuth } from "../../context/AuthContext.jsx";
 import styles from "./contactForm.module.css";
+import { useNavigate } from "react-router";
+import createContact from "../../api/createContact.js";
 
-function ContactForm({ onSubmit }) {
+function ContactForm() {
+  const { accessToken,refreshAccessToken } = useAuth();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    email: "",
-    phone: "",
-    street: "",
+    type: "",
+    mobile: "",
     city: "",
     state: "",
-    country: "",
-    pincode: "",
-    type: "",
+    pincode: ""
   });
 
   const handleChange = (e) => {
@@ -22,52 +24,40 @@ function ContactForm({ onSubmit }) {
     }));
   };
 
-  const handleNew = () => {
+  const moveBack = () => {
     setFormData({
-      email: "",
-      phone: "",
-      street: "",
+      type: "",
+      mobile: "",
       city: "",
       state: "",
-      country: "",
-      pincode: "",
-      type: "",
+      pincode: ""
     });
+    navigate("/");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.email.trim()) {
-      alert("Email is required");
-      return;
-    }
-
-    if (!formData.phone.trim()) {
-      alert("Phone is required");
-      return;
-    }
-
-    if (!formData.type) {
-      alert("Type is required");
-      return;
-    }
-
     const contactData = {
-      email: formData.email,
-      phone: formData.phone,
-      street: formData.street,
+      mobile: formData.mobile,
       city: formData.city,
       state: formData.state,
-      country: formData.country,
       pincode: formData.pincode,
       type: formData.type,
     };
 
-    console.log("Contact:", contactData);
-
-    if (onSubmit) {
-      onSubmit(contactData);
+    try{
+      let response = await createContact(contactData, accessToken);
+      if (response.status === 401) {
+        const newAccessToken = await refreshAccessToken();
+        response = await createContact(contactData, newAccessToken);
+      }
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to create contact");
+      }
+    } catch (error) {
+      console.error("Error creating contact:", error.message);
     }
   };
 
@@ -76,14 +66,81 @@ function ContactForm({ onSubmit }) {
       <h1>Contact Master Form View</h1>
 
       <div className={styles.formContainer}>
+        <form
+          id="contact-form"
+          className={styles.contactForm}
+          onSubmit={handleSubmit}
+        >
+          {/* Type */}
+          <div className={styles.formField}>
+            <label>type</label>
+            <input
+              type="text"
+              name="type"
+              placeholder="Enter type"
+              value={formData.type}
+              onChange={handleChange}
+            />
+          </div>
+
+          {/* Mobile */}
+          <div className={styles.formField}>
+            <label>Mobile</label>
+            <input
+              type="tel"
+              name="mobile"
+              placeholder="Enter mobile number"
+              value={formData.mobile}
+              onChange={handleChange}
+            />
+          </div>
+
+          {/* City */}
+          <div className={styles.formField}>
+            <label>City</label>
+            <input
+              type="text"
+              name="city"
+              placeholder="Enter city"
+              value={formData.city}
+              onChange={handleChange}
+            />
+          </div>
+
+          {/* State */}
+          <div className={styles.formField}>
+            <label>State</label>
+            <input
+              type="text"
+              name="state"
+              placeholder="Enter state"
+              value={formData.state}
+              onChange={handleChange}
+            />
+          </div>
+
+          {/* Pincode */}
+          <div className={styles.formField}>
+            <label>Pincode</label>
+
+            <input
+              type="text"
+              name="pincode"
+              placeholder="Enter pincode"
+              value={formData.pincode}
+              onChange={handleChange}
+            />
+          </div>
+        </form>
+
         <div className={styles.header}>
           <div className={styles.headerButtons}>
             <button
               type="button"
               className={`${styles.button} ${styles.newButton}`}
-              onClick={handleNew}
+              onClick={moveBack}
             >
-              New
+              Back
             </button>
 
             <button
@@ -95,99 +152,6 @@ function ContactForm({ onSubmit }) {
             </button>
           </div>
         </div>
-
-        <form
-          id="contact-form"
-          className={styles.contactForm}
-          onSubmit={handleSubmit}
-        >
-          {/* Email */}
-          <div className={styles.formField}>
-            <label>Email</label>
-            <input
-              type="email"
-              name="email"
-              placeholder="Enter email"
-              value={formData.email}
-              onChange={handleChange}
-            />
-          </div>
-
-          {/* Phone */}
-          <div className={styles.formField}>
-            <label>Phone</label>
-            <input
-              type="tel"
-              name="phone"
-              placeholder="Enter phone number"
-              value={formData.phone}
-              onChange={handleChange}
-            />
-          </div>
-
-          {/* Type */}
-          <div className={styles.formField}>
-            <label>Type</label>
-
-            <select
-              name="type"
-              value={formData.type}
-              onChange={handleChange}
-            >
-              <option value="">Select type</option>
-              <option value="CUSTOMER">Customer</option>
-              <option value="VENDOR">Vendor</option>
-              <option value="BOTH">Customer & Vendor</option>
-            </select>
-          </div>
-
-          {/* Address */}
-          <div className={styles.addressSection}>
-            <label>Address</label>
-
-            <input
-              type="text"
-              name="street"
-              placeholder="Street"
-              value={formData.street}
-              onChange={handleChange}
-            />
-
-            <input
-              type="text"
-              name="city"
-              placeholder="City"
-              value={formData.city}
-              onChange={handleChange}
-            />
-
-            <input
-              type="text"
-              name="state"
-              placeholder="State"
-              value={formData.state}
-              onChange={handleChange}
-            />
-
-            <div className={styles.bottomFields}>
-              <input
-                type="text"
-                name="country"
-                placeholder="Country"
-                value={formData.country}
-                onChange={handleChange}
-              />
-
-              <input
-                type="text"
-                name="pincode"
-                placeholder="Pincode"
-                value={formData.pincode}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
-        </form>
       </div>
     </div>
   );
