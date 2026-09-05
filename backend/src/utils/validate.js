@@ -55,3 +55,29 @@ export const validateRegistration = [
     .withMessage("Password must contain at least one special character"),
 ];
 
+export const validateContact = [
+  body("type")
+    .trim()
+    .notEmpty()
+    .withMessage("Contact type is required")
+    .isIn(["CUSTOMER", "VENDOR", "BOTH"])
+    .withMessage("Contact type must be either 'CUSTOMER', 'VENDOR', or 'BOTH'"),
+
+  body("mobile")
+    .trim()
+    .notEmpty()
+    .withMessage("Mobile number is required")
+    .isLength({ min: 10, max: 15 })
+    .withMessage("Mobile number must be between 10 and 15 characters"),
+
+  body("city").trim().notEmpty().withMessage("City is required"),
+
+  body("state").trim().notEmpty().withMessage("State is required"),
+
+  body("pincode")
+    .trim()
+    .notEmpty()
+    .withMessage("Pincode is required")
+    .isLength({ min: 5, max: 10 })
+    .withMessage("Pincode must be between 5 and 10 characters"),
+];
