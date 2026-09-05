@@ -106,3 +106,19 @@ model Contact {
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
 }
+
+enum AccountType {
+  ASSET
+  LIABILITY
+  EXPENSE
+  INCOME
+  CAPITAL
+}
+
+model Account {
+  id           Int         @id @default(autoincrement())
+  accountName  String
+  accountType AccountType
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+}
