@@ -20,7 +20,24 @@ function CreateProduct() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
+    if (
+      name === "purchasingPrice" ||
+      name === "sellingPrice" ||
+      name === "maxMargin"
+    ) {
+      // Allow only numbers and a single decimal point
+      const regex = /^\d*\.?\d*$/;
+      if (!regex.test(value)) {
+        return; // Ignore invalid input
+      }
+    }
+    if (name === "availableQuantity") {
+      // Allow only whole numbers
+      const regex = /^\d*$/;
+      if (!regex.test(value)) {
+        return; // Ignore invalid input
+      }
+    }
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -107,7 +124,7 @@ function CreateProduct() {
 
           {/* Type */}
           <div className={styles.formField}>
-            <label>type</label> 
+            <label>type</label>
             <select name="type" value={formData.type} onChange={handleChange}>
               <option value="GOODS">Goods</option>
               <option value="SERVICE">Service</option>
@@ -115,10 +132,14 @@ function CreateProduct() {
             </select>
           </div>
 
-          {/* Category */} 
+          {/* Category */}
           <div className={styles.formField}>
             <label>Category</label>
-            <select name="category" value={formData.category} onChange={handleChange}>
+            <select
+              name="category"
+              value={formData.category}
+              onChange={handleChange}
+            >
               <option value="CHAIRS">Chairs</option>
               <option value="TABLES">Tables</option>
               <option value="SOFAS">Sofas</option>
