@@ -52,7 +52,7 @@ model Product {
   purchasingPrice     Float
   sellingPrice      Float
   availableCounts   Int
-  allowance         Float
+  maxMargin         Float
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 }
