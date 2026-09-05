@@ -2,13 +2,14 @@ import { useState } from "react";
 import styles from "./vendorForm.module.css";
 
 function VendorForm({ onBack, onSubmit }) {
-  const [formData, setFormData] = useState({
-    product: "",
-    brandName: "",
-    cost: "",
-    sellingPrice: "",
-    quantity: "",
-  });
+const [formData, setFormData] = useState({
+  product: "",
+  brandName: "",
+  category: "",
+  cost: "",
+  sellingPrice: "",
+  quantity: "",
+});
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,15 +20,16 @@ function VendorForm({ onBack, onSubmit }) {
     }));
   };
 
-  const handleNew = () => {
-    setFormData({
-      product: "",
-      brandName: "",
-      cost: "",
-      sellingPrice: "",
-      quantity: "",
-    });
-  };
+ const handleNew = () => {
+  setFormData({
+    product: "",
+    brandName: "",
+    category: "",
+    cost: "",
+    sellingPrice: "",
+    quantity: "",
+  });
+};
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -113,7 +115,29 @@ function VendorForm({ onBack, onSubmit }) {
         id="product-form"
         className={styles.productForm}
         onSubmit={handleSubmit}
+
       >
+        {/* Furniture Category */}
+<div className={styles.productField}>
+  <label>Category</label>
+
+  <select
+    name="category"
+    value={formData.category}
+    onChange={handleChange}
+  >
+    <option value="">Select category</option>
+    <option value="CHAIRS">Chairs</option>
+    <option value="TABLES">Tables</option>
+    <option value="SOFAS">Sofas</option>
+    <option value="BEDS">Beds</option>
+    <option value="CABINETS">Cabinets</option>
+    <option value="OFFICE_FURNITURE">
+      Office Furniture
+    </option>
+    <option value="OTHER">Other</option>
+  </select>
+</div>
 
         {/* Product */}
         <div className={styles.productField}>

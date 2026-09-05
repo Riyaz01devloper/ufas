@@ -82,9 +82,8 @@ model Product {
   sellingPrice      Float
   availableQuantity Int
 
-  // Maximum allowed increase over purchasing price (%)
   maxMargin         Float
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-}
+} 

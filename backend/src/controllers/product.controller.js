@@ -1,15 +1,8 @@
-const { PrismaClient } = require("@prisma/client");
+// const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
 const { PrismaClient } = require("@prisma/client");
-
-
-
-
-// =====================================================
-// CREATE PRODUCT
-// =====================================================
 
 const createProduct = async (req, res) => {
     try {
@@ -97,9 +90,6 @@ const createProduct = async (req, res) => {
 };
 
 
-// =====================================================
-// GET ALL PRODUCTS
-// =====================================================
 
 const getProducts = async (req, res) => {
     try {
@@ -124,9 +114,6 @@ const getProducts = async (req, res) => {
 };
 
 
-// =====================================================
-// GET PRODUCT BY ID
-// =====================================================
 
 const getProductById = async (req, res) => {
     try {
@@ -165,10 +152,6 @@ const getProductById = async (req, res) => {
 };
 
 
-// =====================================================
-// UPDATE PRODUCT
-// =====================================================
-
 const updateProduct = async (req, res) => {
     try {
         const id = Number(req.params.id);
@@ -190,7 +173,6 @@ const updateProduct = async (req, res) => {
             maxMargin,
         } = req.body;
 
-        // Check product
         const existingProduct = await prisma.product.findUnique({
             where: {
                 id,
@@ -213,7 +195,6 @@ const updateProduct = async (req, res) => {
             });
         }
 
-        // Validate selling price
         if (
             sellingPrice !== undefined &&
             Number(sellingPrice) < 0
@@ -223,7 +204,6 @@ const updateProduct = async (req, res) => {
             });
         }
 
-        // Validate quantity
         if (
             availableQuantity !== undefined &&
             Number(availableQuantity) < 0
@@ -233,7 +213,6 @@ const updateProduct = async (req, res) => {
             });
         }
 
-        // Validate max margin
         if (
             maxMargin !== undefined &&
             (Number(maxMargin) < 0 || Number(maxMargin) > 1)
@@ -299,9 +278,6 @@ const updateProduct = async (req, res) => {
 };
 
 
-// =====================================================
-// DELETE PRODUCT
-// =====================================================
 
 const deleteProduct = async (req, res) => {
     try {
@@ -345,9 +321,6 @@ const deleteProduct = async (req, res) => {
     }
 };
 
-// =====================================================
-// GET PRODUCTS BY TYPE
-// =====================================================
 
 const getProductsByType = async (req, res) => {
     try {
@@ -379,10 +352,6 @@ const getProductsByType = async (req, res) => {
         });
     }
 };
-
-// =====================================================
-// GET PRODUCTS BY FURNITURE CATEGORY
-// =====================================================
 
 const getProductsByCategory = async (req, res) => {
     try {
@@ -416,9 +385,6 @@ const getProductsByCategory = async (req, res) => {
 };
 
 
-// =====================================================
-// GET PRODUCTS BY TYPE AND CATEGORY
-// =====================================================
 
 const getProductsByTypeAndCategory = async (req, res) => {
     try {
@@ -455,8 +421,7 @@ const getProductsByTypeAndCategory = async (req, res) => {
     }
 };
 
-
-module.exports = {
+export {
     createProduct,
     getProducts,
     getProductById,

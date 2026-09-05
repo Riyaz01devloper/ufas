@@ -1,9 +1,19 @@
 import "./App.css";
-// import routes from "./routes.jsx";
-// import { RouterProvider } from "react-router-dom";
 
 function App() {
-  return <div>hello</div>;
+  return (
+    <div className="app">
+      <h1>Urban Furniture Accounting System</h1>
+
+      <p>
+        Welcome to Urban Furniture Accounting System
+      </p>
+
+      <a href="/products">
+        Open Product Master
+      </a>
+    </div>
+  );
 }
 
 export default App;
