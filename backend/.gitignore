@@ -1,6 +1,9 @@
 # Dependencies
 node_modules/
 
+# Prisma generated client
+generated/
+
 # Environment variables
 .env
 .env.*
