@@ -89,35 +89,23 @@ model Product {
   updatedAt DateTime @updatedAt
 }
 
-
 enum ContactType {
   CUSTOMER
   VENDOR
+  BOTH
 }
 
+model Contact {
+  id        Int         @id @default(autoincrement())
+  name      String
+  type      ContactType
+  email     String
+  mobile    String
+  city      String
+  state     String
+  pincode   String
+  imageUrl  String?
 
-model MasterData {
-  id Int @id @default(autoincrement())
-
-  name String
-  type ContactType
-
-  email String
-  mobile String
-
-  city String
-  state String
-  pincode String
-
-  p_name String
-  p_type ProductType
-  SalesPrice Float?
-  PurchasePrice Float?
-  Category  FurnitureCategory
-  quantity Int 
-  total_bill Float 
-
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
 }
