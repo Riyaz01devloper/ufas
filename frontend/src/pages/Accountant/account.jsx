@@ -5,17 +5,19 @@ import { useEffect, useState } from "react";
 import styles from "./account.module.css";
 
 function Account() {
-  const { user, accessToken, refreshAccessToken } = useAuth();
+  const { user, accessToken, refreshAccessToken, loading } = useAuth();
 
+  if (loading) {
+    return <div>Authenticating...</div>;
+  }
   const [chartOfAccounts, setChartOfAccounts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [accountLoading, setAccountLoading] = useState(true);
   const [error, setError] = useState(null);
   if (!user) {
     return <Navigate to="/login" replace />;
   }
 
-  const isAuthorized =
-    user.role === "ACCOUNTANT" || user.role === "ADMIN";
+  const isAuthorized = user.role === "ACCOUNTANT" || user.role === "ADMIN";
 
   if (!isAuthorized) {
     return (
@@ -31,7 +33,7 @@ function Account() {
 
   useEffect(() => {
     const fetchChartOfAccounts = async () => {
-      setLoading(true);
+      setAccountLoading(true);
       setError(null);
 
       try {
@@ -45,16 +47,14 @@ function Account() {
         const data = await response.json();
 
         if (!response.ok) {
-          throw new Error(
-            data.message || "Failed to fetch chart of accounts"
-          );
+          throw new Error(data.message || "Failed to fetch chart of accounts");
         }
 
         setChartOfAccounts(data);
       } catch (err) {
         setError(err.message);
       } finally {
-        setLoading(false);
+        setAccountLoading(false);
       }
     };
 
@@ -68,7 +68,7 @@ function Account() {
         <p>Manage and view your accounting accounts</p>
       </div>
 
-      {loading && (
+      {accountLoading && (
         <div className={styles.message}>
           <p>Loading accounts...</p>
         </div>
@@ -80,7 +80,7 @@ function Account() {
         </div>
       )}
 
-      {!loading && !error && (
+      {!accountLoading && !error && (
         <div className={styles.tableWrapper}>
           <table className={styles.accountTable}>
             <thead>
@@ -96,9 +96,7 @@ function Account() {
               {chartOfAccounts.map((account, index) => (
                 <tr key={account.id}>
                   <td>{index + 1}</td>
-                  <td className={styles.accountName}>
-                    {account.accountName}
-                  </td>
+                  <td className={styles.accountName}>{account.accountName}</td>
                   <td>
                     <span
                       className={`${styles.accountType} ${
@@ -109,9 +107,7 @@ function Account() {
                     </span>
                   </td>
                   <td>
-                    <button className={styles.deleteButton}>
-                      Delete
-                    </button>
+                    <button className={styles.deleteButton}>Delete</button>
                   </td>
                 </tr>
               ))}
