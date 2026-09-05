@@ -5,14 +5,14 @@ import { useNavigate } from "react-router";
 import createContact from "../../api/createContact.js";
 
 function ContactForm() {
-  const { accessToken,refreshAccessToken } = useAuth();
+  const { accessToken, refreshAccessToken } = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    type: "",
+    type: "CUSTOMER",
     mobile: "",
     city: "",
     state: "",
-    pincode: ""
+    pincode: "",
   });
 
   const handleChange = (e) => {
@@ -30,7 +30,7 @@ function ContactForm() {
       mobile: "",
       city: "",
       state: "",
-      pincode: ""
+      pincode: "",
     });
     navigate("/");
   };
@@ -45,8 +45,8 @@ function ContactForm() {
       pincode: formData.pincode,
       type: formData.type,
     };
-
-    try{
+    console.log("Submitting contact data:", contactData);
+    try {
       let response = await createContact(contactData, accessToken);
       if (response.status === 401) {
         const newAccessToken = await refreshAccessToken();
@@ -56,6 +56,7 @@ function ContactForm() {
       if (!response.ok) {
         throw new Error(data.message || "Failed to create contact");
       }
+      navigate("/"); // Navigate to the home page or any other page after successful submission
     } catch (error) {
       console.error("Error creating contact:", error.message);
     }
@@ -74,11 +75,7 @@ function ContactForm() {
           {/* Type */}
           <div className={styles.formField}>
             <label>type</label>
-            <select
-              name="type"
-              value={formData.type}
-              onChange={handleChange}
-            >
+            <select name="type" value={formData.type} onChange={handleChange}>
               <option value="CUSTOMER">Customer</option>
               <option value="VENDOR">Vendor</option>
               <option value="BOTH">Both</option>
