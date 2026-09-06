@@ -10,8 +10,9 @@ function Header() {
     { name: "Products", path: "/products" },
     { name: "Sales", path: "/sales" },
     { name: "Purchases", path: "/purchases" },
+    { name: "Journals", path: "/journals" },
     { name: "Accounting", path: "/account" },
-    { name: "Reports", path: "/reports" },
+    { name: "Reports", path: "/reports" }
   ];
 
   const accountantMenu = [
@@ -20,8 +21,9 @@ function Header() {
     { name: "Purchases", path: "/purchases" },
     { name: "Invoices", path: "/invoices" },
     { name: "Payments", path: "/payments" },
+    { name: "Journals", path: "/journals" },
     { name: "Accounting", path: "/account" },
-    { name: "Reports", path: "/reports" },
+    { name: "Reports", path: "/reports" }
   ];
 
   const contactMenu = [

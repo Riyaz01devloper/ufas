@@ -104,8 +104,9 @@ masterdataRouter.get(
 GET /api/masterdata/contacts/:userId
 */
 masterdataRouter.get(
-  "/contacts/:userId",
+  "/my-contact",
   authenticate,
-  masterdataController.getContactsByUserId,
+  masterdataController.getMyContact,
 );
+
 export default masterdataRouter;

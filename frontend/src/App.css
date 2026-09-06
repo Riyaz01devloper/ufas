@@ -1,54 +1,50 @@
 .app {
   min-height: 100vh;
   width: 100%;
-
   display: flex;
   flex-direction: column;
-
   justify-content: center;
   align-items: center;
-
   gap: 15px;
-
+  padding: 30px;
   background: #111111;
   color: #ffffff;
-
   box-sizing: border-box;
+  text-align: center;
 }
 
 .app h1 {
   margin: 0;
-
   font-size: 30px;
   font-weight: 600;
 }
 
 .app p {
   margin: 0;
-
   color: #aaaaaa;
   font-size: 16px;
 }
 
 .app a {
   display: inline-block;
-
   padding: 11px 22px;
-
   background: #2e8b57;
   color: #ffffff;
-
   text-decoration: none;
-
   border-radius: 6px;
-
   font-size: 15px;
   font-weight: 600;
-
   transition: 0.2s ease;
 }
 
 .app a:hover {
   background: #3aa66b;
   transform: translateY(-1px);
+}
+
+.errorMessage {
+  padding: 10px 16px;
+  border-radius: 6px;
+  background: #5a1f1f;
+  color: #ffb3b3 !important;
 }

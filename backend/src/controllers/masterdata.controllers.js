@@ -207,17 +207,22 @@ export const getJournals = async (req, res) => {
     }
 };
 
-export const getContactsByUserId = async (req, res) => {
-    const userId = parseInt(req.params.userId, 10);
-    try {
-        const contacts = await prisma.contact.findMany({
-            where: {
-                userId: userId
-            }
-        });
-        res.status(200).json(contacts);
-    } catch (error) {
-        console.error("Error fetching contacts:", error);
-        res.status(500).json({ message: "Internal server error" });
-    }
+export const getMyContact = async (req, res) => {
+  try {
+    const contact = await prisma.contact.findUnique({
+      where: {
+        userId: req.user.id,
+      },
+    });
+
+    res.status(200).json({
+      exists: !!contact,
+      contact,
+    });
+  } catch (error) {
+    console.error("Error fetching current user contact:", error);
+    res.status(500).json({
+      message: "Internal server error",
+    });
+  }
 };
