@@ -9,6 +9,7 @@ import EditProduct from "./pages/editProduct/editProduct.jsx";
 import Account from "./pages/Accountant/account.jsx";
 import AddCoa from "./pages/add-coa/addCoa.jsx";
 import Journals from "./pages/Accountant/journals.jsx";
+import Dashboard from "./pages/Accountant/dashboard.jsx";
 
 const routes = [
   {
@@ -34,6 +35,10 @@ const routes = [
   {
     path: "/products",
     element: <Products />,
+  },
+  {
+    path: "/dashboard",
+    element: <Dashboard />,
   },
   {
     path: "/updateProduct/:productId",

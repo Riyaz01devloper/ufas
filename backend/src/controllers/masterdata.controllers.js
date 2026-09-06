@@ -181,30 +181,30 @@ export const addChartOfAccounts = [
   },
 ];
 
-export const deleteChartOfAccounts = async (req,res) => {
-    const accountId = parseInt(req.params.accountId, 10);
-    const accountData = await prisma.account.findUnique({
-        where: { id: accountId },
+export const deleteChartOfAccounts = async (req, res) => {
+  const accountId = parseInt(req.params.accountId, 10);
+  const accountData = await prisma.account.findUnique({
+    where: { id: accountId },
+  });
+  if (!accountData) {
+    return res.status(404).json({
+      message: "Account not found",
     });
-    if (!accountData) {
-        return res.status(404).json({
-            message: "Account not found",
-        });
-    }
-    await prisma.account.delete({
-        where: { id: accountId },
-    });
-    res.json({ message: "Account deleted successfully" });
+  }
+  await prisma.account.delete({
+    where: { id: accountId },
+  });
+  res.json({ message: "Account deleted successfully" });
 };
 
 export const getJournals = async (req, res) => {
-    try {
-        const journals = await prisma.journal.findMany();
-        res.status(200).json(journals);
-    } catch (error) {
-        console.error("Error fetching journals:", error);
-        res.status(500).json({ message: "Internal server error" });
-    }
+  try {
+    const journals = await prisma.journal.findMany();
+    res.status(200).json(journals);
+  } catch (error) {
+    console.error("Error fetching journals:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
 };
 
 export const getMyContact = async (req, res) => {
@@ -223,6 +223,45 @@ export const getMyContact = async (req, res) => {
     console.error("Error fetching current user contact:", error);
     res.status(500).json({
       message: "Internal server error",
+    });
+  }
+};
+
+export const getDashboardStats = async (req, res) => {
+  try {
+    const [customers, vendors, products, accounts] = await Promise.all([
+      prisma.contact.count({
+        where: {
+          type: {
+            in: ["CUSTOMER", "BOTH"],
+          },
+        },
+      }),
+
+      prisma.contact.count({
+        where: {
+          type: {
+            in: ["VENDOR", "BOTH"],
+          },
+        },
+      }),
+
+      prisma.product.count(),
+
+      prisma.account.count(),
+    ]);
+
+    res.status(200).json({
+      customers,
+      vendors,
+      products,
+      accounts,
+    });
+  } catch (error) {
+    console.error("Error fetching dashboard stats:", error);
+
+    res.status(500).json({
+      message: "Failed to fetch dashboard statistics",
     });
   }
 };

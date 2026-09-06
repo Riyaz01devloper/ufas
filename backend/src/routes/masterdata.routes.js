@@ -109,4 +109,10 @@ masterdataRouter.get(
   masterdataController.getMyContact,
 );
 
+masterdataRouter.get(
+  "/dashboard-stats",
+  authenticate,
+  authorize(["ADMIN", "ACCOUNTANT"]),
+  masterdataController.getDashboardStats,
+);
 export default masterdataRouter;
