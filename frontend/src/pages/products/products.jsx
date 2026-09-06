@@ -79,6 +79,11 @@ function Products() {
           {error}
         </p>
       )}
+      {user && user.role === "ADMIN" && (
+        <Link to="/createProduct" className={styles.addButton}>
+          Add Product
+        </Link>
+      )}
       {products.length > 0 ? (
         <ul className={styles.productsList}>
           {products.map((product) => (

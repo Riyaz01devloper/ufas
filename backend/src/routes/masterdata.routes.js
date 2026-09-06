@@ -115,4 +115,26 @@ masterdataRouter.get(
   authorize(["ADMIN", "ACCOUNTANT"]),
   masterdataController.getDashboardStats,
 );
+
+
+/*
+GET /api/masterdata/sales
+*/
+masterdataRouter.get(
+  "/sales",
+  authenticate,
+  authorize(["ADMIN", "ACCOUNTANT"]),
+  masterdataController.getSales,
+);
+
+/*
+GET /api/masterdata/purchases
+*/
+masterdataRouter.get(
+  "/purchases",
+  authenticate,
+  authorize(["ADMIN", "ACCOUNTANT"]),
+  masterdataController.getPurchases,
+);
+
 export default masterdataRouter;

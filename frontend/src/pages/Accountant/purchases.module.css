@@ -1,0 +1,81 @@
+.purchasesContainer {
+  padding: 30px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 30px;
+}
+
+.header p {
+  margin-top: 6px;
+  color: #666;
+}
+
+.total {
+  font-size: 16px;
+}
+
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+  background: white;
+  border-radius: 10px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 900px;
+}
+
+.table th,
+.table td {
+  padding: 14px 16px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.table th {
+  font-weight: 600;
+  background: #f7f7f7;
+}
+
+.table tbody tr:hover {
+  background: #fafafa;
+}
+
+.amount {
+  font-weight: 600;
+}
+
+.message {
+  padding: 30px;
+  text-align: center;
+}
+
+.error {
+  padding: 14px;
+  margin-bottom: 20px;
+  border-radius: 6px;
+  background: #ffe5e5;
+  color: #b00020;
+}
+
+.empty {
+  text-align: center !important;
+  padding: 40px !important;
+  color: #777;
+}
+
+.accessDenied {
+  padding: 40px;
+  text-align: center;
+}

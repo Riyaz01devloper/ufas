@@ -265,3 +265,88 @@ export const getDashboardStats = async (req, res) => {
     });
   }
 };
+
+export const getSales = async (req, res) => {
+  try {
+    const sales = await prisma.sale.findMany({
+      include: {
+        customer: {
+          include: {
+            user: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
+        product: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+        account: {
+          select: {
+            id: true,
+            accountName: true,
+            accountType: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    res.status(200).json(sales);
+  } catch (error) {
+    console.error("Error fetching sales:", error);
+
+    res.status(500).json({
+      message: "Failed to fetch sales",
+    });
+  }
+};
+
+
+export const getPurchases = async (req, res) => {
+  try {
+    const purchases = await prisma.purchase.findMany({
+      include: {
+        vendor: {
+          include: {
+            user: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
+        product: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+        account: {
+          select: {
+            id: true,
+            accountName: true,
+            accountType: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    res.status(200).json(purchases);
+  } catch (error) {
+    console.error("Error fetching purchases:", error);
+
+    res.status(500).json({
+      message: "Failed to fetch purchases",
+    });
+  }
+};
