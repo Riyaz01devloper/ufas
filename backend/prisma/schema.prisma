@@ -123,6 +123,7 @@ model Account {
   accountType AccountType
   sales        Sale[]
   purchases    Purchase[]
+  expenses     Expense[]
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
 }
@@ -186,5 +187,20 @@ model Purchase {
 
   @@index([vendorId])
   @@index([productId])
+  @@index([accountId])
+}
+
+model Expense {
+  id          Int      @id @default(autoincrement())
+
+  accountId   Int
+  description String
+  amount      Float
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  account     Account  @relation(fields: [accountId], references: [id])
+
   @@index([accountId])
 }
