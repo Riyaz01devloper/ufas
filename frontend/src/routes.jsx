@@ -12,6 +12,8 @@ import Journals from "./pages/Accountant/journals.jsx";
 import Dashboard from "./pages/Accountant/dashboard.jsx";
 import Sales from "./pages/Accountant/sales.jsx";
 import Purchases from "./pages/Accountant/purchases.jsx";
+import Purchases from "./pages/Accountant/purchases.jsx";
+import Purchase from "./pages/purchase/purchase.jsx";
 
 const routes = [
   {
@@ -73,6 +75,10 @@ const routes = [
   {
     path: "*",
     element: <ErrorPage />,
+  },
+  {
+    path: "/purchase",
+    element: <Purchase />,
   },
 ];
 

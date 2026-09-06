@@ -2,6 +2,7 @@ import { Router } from "express";
 import * as masterdataController from "../controllers/masterdata.controllers.js";
 import { authenticate } from "../middleware/authenticate.middleware.js";
 import authorize from "../middleware/authorize.middleware.js";
+import { createPurchase } from "../controllers/purchase.controllers.js";
 const masterdataRouter = Router();
 
 /*
@@ -116,7 +117,6 @@ masterdataRouter.get(
   masterdataController.getDashboardStats,
 );
 
-
 /*
 GET /api/masterdata/sales
 */
@@ -146,5 +146,20 @@ masterdataRouter.get(
   authorize(["ADMIN", "ACCOUNTANT"]),
   masterdataController.getReports,
 );
+/*
+POST /api/masterdata/create-purchase
+*/
+masterdataRouter.post(
+  "/create-purchase",
+  authenticate,
+  authorize(["ADMIN", "ACCOUNTANT"]),
+  createPurchase,
+);
 
+masterdataRouter.get(
+  "/contacts",
+  authenticate,
+  authorize(["ADMIN", "ACCOUNTANT"]),
+  masterdataController.getContacts,
+);
 export default masterdataRouter;

@@ -598,3 +598,35 @@ export const getReports = async (req, res) => {
     });
   }
 };
+
+export const getContacts = async (req, res) => {
+  try {
+    const contacts = await prisma.contact.findMany({
+      where: {
+        type: {
+          in: ["VENDOR", "BOTH"],
+        },
+      },
+
+      include: {
+        user: {
+          select: {
+            name: true,
+          },
+        },
+      },
+
+      orderBy: {
+        id: "asc",
+      },
+    });
+
+    res.status(200).json(contacts);
+  } catch (error) {
+    console.error("Error fetching vendors:", error);
+
+    res.status(500).json({
+      message: "Failed to fetch vendors",
+    });
+  }
+};
