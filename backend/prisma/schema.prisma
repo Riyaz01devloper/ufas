@@ -69,21 +69,22 @@ enum FurnitureCategory {
 }
 
 model Product {
-  id        Int               @id @default(autoincrement())
-  name      String
-  brandName String?
-  type      ProductType       @default(GOODS)
-  category  FurnitureCategory
+  id                 Int                @id @default(autoincrement())
+  name               String
+  brandName          String?
+  type               ProductType        @default(GOODS)
+  category           FurnitureCategory
+  purchasingPrice    Float
+  sellingPrice       Float
+  availableQuantity  Int
+  maxMargin          Float
 
-  purchasingPrice   Float
-  sellingPrice      Float
-  availableQuantity Int
-  sales             Sale[]
-  purchases         Purchase[]
-  maxMargin Float
+  sales              Sale[]
+  purchases          Purchase[]
+  purchaseOrderItems PurchaseOrderItem[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
 }
 
 enum ContactType {
@@ -103,7 +104,8 @@ model Contact {
 
   userId    Int         @unique
   user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-sales     Sale[]
+  sales     Sale[]
+  purchaseOrders PurchaseOrder[]
   purchases Purchase[]
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
@@ -203,4 +205,37 @@ model Expense {
   account     Account  @relation(fields: [accountId], references: [id])
 
   @@index([accountId])
+}
+
+enum PurchaseOrderStatus {
+  DRAFT
+  CONFIRMED
+  RECEIVED
+  CANCELLED
+}
+
+model PurchaseOrder {
+  id          Int                 @id @default(autoincrement())
+  vendorId    Int
+  orderDate   DateTime            @default(now())
+  status      PurchaseOrderStatus @default(DRAFT)
+  totalAmount Float
+
+  vendor      Contact             @relation(fields: [vendorId], references: [id])
+  items       PurchaseOrderItem[]
+
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+}
+
+model PurchaseOrderItem {
+  id              Int          @id @default(autoincrement())
+  purchaseOrderId Int
+  productId       Int
+  quantity        Int
+  unitPrice       Float
+  totalPrice      Float
+
+  purchaseOrder   PurchaseOrder @relation(fields: [purchaseOrderId], references: [id], onDelete: Cascade)
+  product         Product       @relation(fields: [productId], references: [id])
 }
