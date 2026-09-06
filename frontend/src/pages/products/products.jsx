@@ -113,6 +113,11 @@ function Products() {
                   <Link
                     className={styles.actionButton}
                     to={`/updateProduct/${product.id}`}
+                    style={{
+                      color: "white",
+                      textDecoration: "none",
+                      backgroundColor: "green",
+                    }}
                   >
                     Edit
                   </Link>
@@ -120,6 +125,11 @@ function Products() {
                     className={styles.actionButton}
                     type="button"
                     onClick={() => handleDelete(product.id)}
+                    style={{
+                      color: "white",
+                      textDecoration: "none",
+                      backgroundColor: "red",
+                    }}
                   >
                     Delete
                   </button>
