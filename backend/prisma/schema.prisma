@@ -78,7 +78,8 @@ model Product {
   purchasingPrice   Float
   sellingPrice      Float
   availableQuantity Int
-
+  sales             Sale[]
+  purchases         Purchase[]
   maxMargin Float
 
   createdAt DateTime @default(now())
@@ -102,7 +103,8 @@ model Contact {
 
   userId    Int         @unique
   user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-
+sales     Sale[]
+  purchases Purchase[]
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
 }
@@ -119,6 +121,8 @@ model Account {
   id           Int         @id @default(autoincrement())
   accountName  String
   accountType AccountType
+  sales        Sale[]
+  purchases    Purchase[]
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
 }
@@ -136,4 +140,51 @@ model Journal {
   journalType JournalType
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
+}
+
+model Sale {
+  id              Int      @id @default(autoincrement())
+
+  customerId      Int
+  productId       Int
+  accountId       Int
+
+  quantity        Int
+  unitPrice       Float
+  tax             Float    @default(0)
+  totalAmount     Float
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  customer        Contact  @relation(fields: [customerId], references: [id])
+  product         Product  @relation(fields: [productId], references: [id])
+  account         Account  @relation(fields: [accountId], references: [id])
+
+  @@index([customerId])
+  @@index([productId])
+  @@index([accountId])
+}
+
+model Purchase {
+  id              Int      @id @default(autoincrement())
+
+  vendorId        Int
+  productId       Int
+  accountId       Int
+
+  quantity        Int
+  unitPrice       Float
+  totalAmount     Float
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  vendor          Contact  @relation(fields: [vendorId], references: [id])
+  product         Product  @relation(fields: [productId], references: [id])
+  account         Account  @relation(fields: [accountId], references: [id])
+
+  @@index([vendorId])
+  @@index([productId])
+  @@index([accountId])
 }
