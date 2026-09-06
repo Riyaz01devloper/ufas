@@ -100,4 +100,12 @@ masterdataRouter.get(
   masterdataController.getJournals,
 );
 
+/*
+GET /api/masterdata/contacts/:userId
+*/
+masterdataRouter.get(
+  "/contacts/:userId",
+  authenticate,
+  masterdataController.getContactsByUserId,
+);
 export default masterdataRouter;

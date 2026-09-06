@@ -7,11 +7,10 @@ function Header() {
 
   const adminMenu = [
     { name: "Dashboard", path: "/dashboard" },
-    { name: "Master Data", path: "/master-data" },
     { name: "Products", path: "/products" },
     { name: "Sales", path: "/sales" },
     { name: "Purchases", path: "/purchases" },
-    { name: "Accounting", path: "/accounting" },
+    { name: "Accounting", path: "/account" },
     { name: "Reports", path: "/reports" },
   ];
 
@@ -21,7 +20,7 @@ function Header() {
     { name: "Purchases", path: "/purchases" },
     { name: "Invoices", path: "/invoices" },
     { name: "Payments", path: "/payments" },
-    { name: "Accounting", path: "/accounting" },
+    { name: "Accounting", path: "/account" },
     { name: "Reports", path: "/reports" },
   ];
 

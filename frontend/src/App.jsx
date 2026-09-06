@@ -1,6 +1,9 @@
 import "./App.css";
+import { useState } from "react";
+import { useAuth } from "./context/AuthContext.jsx";
 import Header from "./components/header/header.jsx";
 function App() {
+  
   return (
     <div className="app">
       <Header role = "ADMIN"  />

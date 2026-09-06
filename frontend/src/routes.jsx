@@ -8,6 +8,7 @@ import Products from "./pages/products/products.jsx";
 import EditProduct from "./pages/editProduct/editProduct.jsx";
 import Account from "./pages/Accountant/account.jsx";
 import AddCoa from "./pages/add-coa/addCoa.jsx";
+import Journals from "./pages/Accountant/journals.jsx";
 
 const routes = [
   {
@@ -43,10 +44,6 @@ const routes = [
     element: <Account />,
   },
   {
-    path: "*",
-    element: <ErrorPage />,
-  },
-  {
     path: "/updateProduct/:productId",
     element: <CreateProduct />,
   },
@@ -54,6 +51,14 @@ const routes = [
     path: "/add-chart-of-account",
     element: <AddCoa />,
   },
+  {
+    path: "/journals",
+    element: <Journals />,
+  },
+  {
+    path: "*",
+    element: <ErrorPage />,
+  }
 ];
 
 export default routes;

@@ -1,0 +1,153 @@
+.journalContainer {
+  width: 100%;
+  min-height: 100vh;
+  padding: 32px;
+  box-sizing: border-box;
+  background-color: #f5f6f8;
+}
+
+.journalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.journalHeader h1 {
+  margin: 0;
+  font-size: 30px;
+  color: #222;
+}
+
+.journalHeader p {
+  margin: 6px 0 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.journalTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.journalTable thead {
+  background-color: #f0f1f3;
+}
+
+.journalTable th,
+.journalTable td {
+  padding: 15px 18px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.journalTable th {
+  font-size: 14px;
+  font-weight: 700;
+  color: #333;
+}
+
+.journalTable td {
+  font-size: 14px;
+  color: #444;
+}
+
+.journalTable tbody tr:hover {
+  background-color: #fafafa;
+}
+
+.journalName {
+  font-weight: 600;
+  color: #222 !important;
+}
+
+.journalType {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.sales {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.purchase {
+  background-color: #fff3e0;
+  color: #ef6c00;
+}
+
+.bank {
+  background-color: #e3f2fd;
+  color: #1565c0;
+}
+
+.cash {
+  background-color: #f3e5f5;
+  color: #7b1fa2;
+}
+
+.message {
+  padding: 30px;
+  text-align: center;
+  color: #555;
+}
+
+.errorMessage {
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.emptyMessage {
+  text-align: center !important;
+  padding: 30px !important;
+  color: #888 !important;
+}
+
+.accessDenied {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  text-align: center;
+}
+
+.accessDenied h1 {
+  margin-bottom: 10px;
+  color: #c62828;
+}
+
+.accessDenied p {
+  margin: 4px 0;
+  color: #555;
+}
+
+@media (max-width: 700px) {
+  .journalContainer {
+    padding: 20px;
+  }
+
+  .journalHeader h1 {
+    font-size: 24px;
+  }
+
+  .journalTable th,
+  .journalTable td {
+    padding: 12px;
+  }
+}

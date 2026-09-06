@@ -206,3 +206,18 @@ export const getJournals = async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 };
+
+export const getContactsByUserId = async (req, res) => {
+    const userId = parseInt(req.params.userId, 10);
+    try {
+        const contacts = await prisma.contact.findMany({
+            where: {
+                userId: userId
+            }
+        });
+        res.status(200).json(contacts);
+    } catch (error) {
+        console.error("Error fetching contacts:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
