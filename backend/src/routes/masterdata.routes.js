@@ -137,4 +137,14 @@ masterdataRouter.get(
   masterdataController.getPurchases,
 );
 
+/*
+GET /api/masterdata/reports
+*/
+masterdataRouter.get(
+  "/reports",
+  authenticate,
+  authorize(["ADMIN", "ACCOUNTANT"]),
+  masterdataController.getReports,
+);
+
 export default masterdataRouter;

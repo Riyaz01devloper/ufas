@@ -350,3 +350,251 @@ export const getPurchases = async (req, res) => {
     });
   }
 };
+
+
+export const getReports = async (req, res) => {
+  try {
+    const [
+      sales,
+      purchases,
+      expenses,
+      expenseAccounts,
+      customers,
+      vendors,
+    ] = await Promise.all([
+      prisma.sale.findMany({
+        include: {
+          product: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+        },
+      }),
+
+      prisma.purchase.findMany({
+        include: {
+          product: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+        },
+      }),
+
+      prisma.expense.findMany({
+        include: {
+          account: {
+            select: {
+              id: true,
+              accountName: true,
+              accountType: true,
+            },
+          },
+        },
+      }),
+
+      prisma.account.findMany({
+        where: {
+          accountType: {
+            in: ["ASSET", "LIABILITY", "CAPITAL"],
+          },
+        },
+        orderBy: {
+          id: "asc",
+        },
+      }),
+
+      prisma.contact.count({
+        where: {
+          type: {
+            in: ["CUSTOMER", "BOTH"],
+          },
+        },
+      }),
+
+      prisma.contact.count({
+        where: {
+          type: {
+            in: ["VENDOR", "BOTH"],
+          },
+        },
+      }),
+    ]);
+
+    // -----------------------------
+    // BASIC TOTALS
+    // -----------------------------
+
+    const totalSales = sales.reduce(
+      (sum, sale) => sum + sale.totalAmount,
+      0,
+    );
+
+    const totalPurchases = purchases.reduce(
+      (sum, purchase) => sum + purchase.totalAmount,
+      0,
+    );
+
+    const totalExpenses = expenses.reduce(
+      (sum, expense) => sum + expense.amount,
+      0,
+    );
+
+    const grossProfit = totalSales - totalPurchases;
+
+    const netProfit = grossProfit - totalExpenses;
+
+    // -----------------------------
+    // SALES BY PRODUCT
+    // -----------------------------
+
+    const salesByProductMap = {};
+
+    for (const sale of sales) {
+      const productId = sale.productId;
+
+      if (!salesByProductMap[productId]) {
+        salesByProductMap[productId] = {
+          productId,
+          productName: sale.product.name,
+          quantity: 0,
+          amount: 0,
+        };
+      }
+
+      salesByProductMap[productId].quantity += sale.quantity;
+      salesByProductMap[productId].amount += sale.totalAmount;
+    }
+
+    const salesByProduct = Object.values(salesByProductMap)
+      .sort((a, b) => b.amount - a.amount);
+
+    // -----------------------------
+    // PURCHASES BY PRODUCT
+    // -----------------------------
+
+    const purchasesByProductMap = {};
+
+    for (const purchase of purchases) {
+      const productId = purchase.productId;
+
+      if (!purchasesByProductMap[productId]) {
+        purchasesByProductMap[productId] = {
+          productId,
+          productName: purchase.product.name,
+          quantity: 0,
+          amount: 0,
+        };
+      }
+
+      purchasesByProductMap[productId].quantity += purchase.quantity;
+      purchasesByProductMap[productId].amount += purchase.totalAmount;
+    }
+
+    const purchasesByProduct = Object.values(
+      purchasesByProductMap,
+    ).sort((a, b) => b.amount - a.amount);
+
+    // -----------------------------
+    // EXPENSES BY ACCOUNT
+    // -----------------------------
+
+    const expensesByAccountMap = {};
+
+    for (const expense of expenses) {
+      const accountId = expense.accountId;
+
+      if (!expensesByAccountMap[accountId]) {
+        expensesByAccountMap[accountId] = {
+          accountId,
+          accountName: expense.account.accountName,
+          amount: 0,
+        };
+      }
+
+      expensesByAccountMap[accountId].amount += expense.amount;
+    }
+
+    const expensesByAccount = Object.values(
+      expensesByAccountMap,
+    ).sort((a, b) => b.amount - a.amount);
+
+    // -----------------------------
+    // BALANCE SHEET
+    // -----------------------------
+
+    const assets = expenseAccounts.filter(
+      (account) => account.accountType === "ASSET",
+    );
+
+    const liabilities = expenseAccounts.filter(
+      (account) => account.accountType === "LIABILITY",
+    );
+
+    const capital = expenseAccounts.filter(
+      (account) => account.accountType === "CAPITAL",
+    );
+
+    // -----------------------------
+    // RESPONSE
+    // -----------------------------
+
+    res.status(200).json({
+      overview: {
+        totalSales,
+        totalPurchases,
+        totalExpenses,
+        grossProfit,
+        netProfit,
+        customers,
+        vendors,
+      },
+
+      profitAndLoss: {
+        revenue: totalSales,
+        costOfGoods: totalPurchases,
+        grossProfit,
+        operatingExpenses: totalExpenses,
+        netProfit,
+      },
+
+      balanceSheet: {
+        assets,
+        liabilities,
+        capital,
+      },
+
+      salesAnalysis: {
+        transactionCount: sales.length,
+        unitsSold: sales.reduce(
+          (sum, sale) => sum + sale.quantity,
+          0,
+        ),
+        byProduct: salesByProduct,
+      },
+
+      purchaseAnalysis: {
+        transactionCount: purchases.length,
+        unitsPurchased: purchases.reduce(
+          (sum, purchase) => sum + purchase.quantity,
+          0,
+        ),
+        byProduct: purchasesByProduct,
+      },
+
+      expenseAnalysis: {
+        transactionCount: expenses.length,
+        byAccount: expensesByAccount,
+      },
+    });
+  } catch (error) {
+    console.error("Error generating reports:", error);
+
+    res.status(500).json({
+      message: "Failed to generate reports",
+    });
+  }
+};
